@@ -1,0 +1,36 @@
+.login-form {
+  display: flex;
+  flex-direction: column; /* stack fields vertically */
+  align-items: center;    /* center horizontally */
+  justify-content: center; /* center vertically if desired */
+  gap: 16px;              /* spacing between inputs */
+  width: 100%;
+  max-width: 400px;       /* keeps it narrow on large screens */
+  margin: 0 auto;         /* centers horizontally */
+  padding: 20px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  width: 100%;
+  max-width: 200px;
+}
+
+.router-link-section {
+  display: flex;
+  flex-direction: column; /* stack fields vertically */
+  align-items: center;    /* center horizontally */
+  justify-content: center; /* center vertically if desired */
+  gap: 16px;              /* spacing between inputs */
+  width: 100%;
+  max-width: 400px;       /* keeps it narrow on large screens */
+  margin: 0 auto;         /* centers horizontally */
+  padding: 20px;
+}
+
+.additional-text {
+  font-size: medium;
+}
