@@ -1,0 +1,31 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent overall page scrolling */
+}
+
+.app-header {
+  flex: 0 0 auto;
+  text-align: center;
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.logo {
+  height: 80px;
+  object-fit: contain;
+}
+
+.app-content {
+  flex: 1 1 auto;
+  overflow-y: auto; /* Scroll only the content, not the header */
+  padding: 20px;
+}
