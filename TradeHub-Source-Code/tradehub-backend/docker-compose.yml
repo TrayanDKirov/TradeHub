@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: tradehub-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tradehub
+      POSTGRES_USER: tradehub
+      POSTGRES_PASSWORD: tradehub
+    ports:
+      - "5432:5432"
+    volumes:
+      - tradehub-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tradehub -d tradehub"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+    container_name: tradehub-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/tradehub
+      SPRING_DATASOURCE_USERNAME: tradehub
+      SPRING_DATASOURCE_PASSWORD: tradehub
+      # Dev convenience: auto-create/update tables from JPA entities since
+      # there are no Flyway/Liquibase migrations yet. Switch to "validate"
+      # once a migration tool owns the schema.
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  tradehub-db-data:
