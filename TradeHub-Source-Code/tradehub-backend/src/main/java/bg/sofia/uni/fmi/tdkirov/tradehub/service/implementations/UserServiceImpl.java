@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.tdkirov.tradehub.service.implementations;
 
-import bg.sofia.uni.fmi.tdkirov.tradehub.model.User;
+import bg.sofia.uni.fmi.tdkirov.tradehub.entity.User;
 import bg.sofia.uni.fmi.tdkirov.tradehub.repository.UserRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.UserService;
 import lombok.AllArgsConstructor;

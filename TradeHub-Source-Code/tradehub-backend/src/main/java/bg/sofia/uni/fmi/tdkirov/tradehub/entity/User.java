@@ -1,4 +1,4 @@
-package bg.sofia.uni.fmi.tdkirov.tradehub.model;
+package bg.sofia.uni.fmi.tdkirov.tradehub.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

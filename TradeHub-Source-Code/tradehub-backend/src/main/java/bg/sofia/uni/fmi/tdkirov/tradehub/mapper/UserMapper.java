@@ -2,7 +2,7 @@
 package bg.sofia.uni.fmi.tdkirov.tradehub.mapper;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserResponseDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.model.User;
+import bg.sofia.uni.fmi.tdkirov.tradehub.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
