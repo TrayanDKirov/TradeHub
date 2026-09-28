@@ -1,0 +1,12 @@
+package bg.sofia.uni.fmi.tdkirov.tradehub.repository;
+
+import bg.sofia.uni.fmi.tdkirov.tradehub.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
+
+    boolean existsByUsername(String username);
+}
