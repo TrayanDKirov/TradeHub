@@ -6,7 +6,7 @@ import bg.sofia.uni.fmi.tdkirov.tradehub.exception.user.InvalidPasswordException
 import bg.sofia.uni.fmi.tdkirov.tradehub.exception.user.UserNotFoundException;
 import bg.sofia.uni.fmi.tdkirov.tradehub.exception.user.UsernameTakenException;
 import bg.sofia.uni.fmi.tdkirov.tradehub.mapper.UserMapper;
-import bg.sofia.uni.fmi.tdkirov.tradehub.entity.User;
+import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.User;
 import bg.sofia.uni.fmi.tdkirov.tradehub.repository.UserRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.security.JwtUtil;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.AuthenticationService;
@@ -45,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = userRepository.findByUsername(loginDto.getUsername())
             .orElseThrow(() -> new UserNotFoundException(loginDto.getUsername(), 0));
 
-        if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(loginDto.getPassword(), user.getPasswordHash())) {
             throw new InvalidPasswordException();
         }
 

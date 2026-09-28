@@ -1,6 +1,6 @@
 package bg.sofia.uni.fmi.tdkirov.tradehub.repository;
 
-import bg.sofia.uni.fmi.tdkirov.tradehub.entity.User;
+import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
