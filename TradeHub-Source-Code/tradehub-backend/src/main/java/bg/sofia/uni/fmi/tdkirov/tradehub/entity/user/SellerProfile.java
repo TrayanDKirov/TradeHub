@@ -38,4 +38,13 @@ public class SellerProfile {
     private String description;
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean verified = false;
+
+    public SellerProfile(User user, String displayName, String contactEmail,
+                         String contactPhone, String description) {
+        this.user = user;
+        this.displayName = displayName;
+        this.contactEmail = contactEmail;
+        this.contactPhone = contactPhone;
+        this.description = description;
+    }
 }

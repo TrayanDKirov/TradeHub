@@ -37,4 +37,14 @@ public class BuyerProfile {
     private String shippingPostalCode;
     @Column
     private String shippingCountry;
+
+    public BuyerProfile(User user, String fullName, String shippingStreet,
+                        String shippingCity, String shippingPostalCode, String shippingCountry) {
+        this.user = user;
+        this.fullName = fullName;
+        this.shippingStreet = shippingStreet;
+        this.shippingCity = shippingCity;
+        this.shippingPostalCode = shippingPostalCode;
+        this.shippingCountry = shippingCountry;
+    }
 }
