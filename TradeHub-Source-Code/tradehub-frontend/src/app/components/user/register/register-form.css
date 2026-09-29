@@ -1,44 +1,94 @@
+/* padding counts inside the width, so width: 100% + padding doesn't overflow */
+.register-page, .register-page * {
+  box-sizing: border-box;
+}
+
 .register-page {
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column; /* title on top, content below */
+  align-items: stretch;   /* full width, the content row centers itself */
+  padding: 0 16px;
+}
+
+.register-title {
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  margin: 24px 0 8px;
+}
+
+.register-content {
   display: flex;
   flex-direction: row;    /* form on the left, links on the right */
   align-items: flex-start;
-  justify-content: center;
+  justify-content: center; /* center the whole block on the page */
   gap: 32px;
   width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
 }
 
 .register-form {
   display: flex;
+  flex-direction: column; /* columns on top, submit button below */
+  align-items: center;
+  gap: 16px;
+  flex: 0 1 800px;        /* 800px wide, shrinks only if the screen is smaller */
+  min-width: 0;
+  padding: 20px;
+}
+
+.form-columns {
+  display: flex;
+  flex-direction: row;    /* profile details on the left, account on the right */
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+}
+
+.form-column {
+  display: flex;
   flex-direction: column; /* stack fields vertically */
-  align-items: center;    /* center horizontally */
-  justify-content: center; /* center vertically if desired */
   gap: 16px;              /* spacing between inputs */
   flex: 1;
-  max-width: 400px;       /* keeps it narrow on large screens */
-  padding: 20px;
+  min-width: 0;
 }
 
 .register-links {
   display: flex;
   flex-direction: column;
-  width: 280px;
-  position: sticky;       /* stays in view while scrolling the long form */
+  flex: 0 0 300px;        /* fixed width, never squeezed by the form */
+  position: sticky;       /* stays in view while scrolling the form */
   top: 20px;
 }
 
-/* stack the links under the form on narrow screens */
-@media (max-width: 720px) {
-  .register-page {
+/* move the links under the form when there is no room beside it,
+   and put the two link sections side by side there */
+@media (max-width: 1220px) {
+  .register-content {
     flex-direction: column;
     align-items: center;
   }
 
-  .register-links {
+  .register-form {
+    flex: none;
     width: 100%;
-    max-width: 400px;
+    max-width: 800px;
+  }
+
+  .register-links {
+    flex: none;
+    flex-direction: row;
+    width: 100%;
+    max-width: 800px;
     position: static;
+  }
+}
+
+/* stack the two form columns and the two link sections on narrow screens */
+@media (max-width: 720px) {
+  .form-columns,
+  .register-links {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
 
@@ -67,5 +117,6 @@ button {
 }
 
 .additional-text {
+  font-family: 'Inter', sans-serif;
   font-size: medium;
 }
