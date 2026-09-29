@@ -1,7 +1,9 @@
 
 package bg.sofia.uni.fmi.tdkirov.tradehub.mapper;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.BuyerProfile;
@@ -33,8 +35,20 @@ public class UserMapper {
             registerDto.getDescription());
     }
 
-    public UserResponseDto toResponseDto(User user) {
-        return new UserResponseDto(user.getId(), user.getUsername(),
-            dateMapper.toStringDateTime(user.getCreatedAt()));
+    public BuyerResponseDto toBuyerResponseDto(BuyerProfile buyer) {
+        User user = buyer.getUser();
+
+        return new BuyerResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getPhone(),
+            dateMapper.toStringDateTime(user.getCreatedAt()), buyer.getFullName(), buyer.getShippingStreet(),
+            buyer.getShippingCity(), buyer.getShippingPostalCode(), buyer.getShippingCountry());
+    }
+
+    public SellerResponseDto toSellerResponseDto(SellerProfile seller) {
+        User user = seller.getUser();
+
+        return new SellerResponseDto(user.getId(), user.getUsername(), user.getEmail(), user.getPhone(),
+            dateMapper.toStringDateTime(user.getCreatedAt()), seller.getDisplayName(), seller.getContactEmail(),
+            seller.getContactPhone(), seller.getDescription());
+
     }
 }
