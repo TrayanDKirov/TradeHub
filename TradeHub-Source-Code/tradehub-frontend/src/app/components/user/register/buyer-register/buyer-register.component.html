@@ -1,0 +1,67 @@
+<div class="register-page">
+  <form (ngSubmit)="onSubmit()" class="register-form">
+    <h3 class="form-section">Account</h3>
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput [(ngModel)]="registerDto.username" name="username" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="registerDto.email" name="email" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Phone</mat-label>
+      <input matInput type="tel" [(ngModel)]="registerDto.phone" name="phone" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Enter your password</mat-label>
+      <input matInput [type]="hide() ? 'password' : 'text'" [(ngModel)]="registerDto.password" name="password" required/>
+      <button
+        type="button"
+        matIconButton
+        matSuffix
+        (click)="clickEvent($event)"
+        [attr.aria-label]="'Hide password'"
+        [attr.aria-pressed]="hide()"
+      >
+        <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <h3 class="form-section">Buyer details</h3>
+    <mat-form-field>
+      <mat-label>Full name</mat-label>
+      <input matInput [(ngModel)]="registerDto.fullName" name="fullName" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Street</mat-label>
+      <input matInput [(ngModel)]="registerDto.shippingStreet" name="shippingStreet">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>City</mat-label>
+      <input matInput [(ngModel)]="registerDto.shippingCity" name="shippingCity">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Postal code</mat-label>
+      <input matInput [(ngModel)]="registerDto.shippingPostalCode" name="shippingPostalCode">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Country</mat-label>
+      <input matInput [(ngModel)]="registerDto.shippingCountry" name="shippingCountry">
+    </mat-form-field>
+
+    <button matButton="filled">Register as buyer</button>
+  </form>
+
+  <aside class="register-links">
+    <section class="router-link-section">
+      <a class="additional-text">You want to register as a Seller? </a>
+      <button matFab extended routerLink="/register/seller"> Register as a Seller </button>
+    </section>
+
+    <section class="router-link-section">
+      <a class="additional-text">You already have a Buyer/Seller account? </a>
+      <button matFab extended routerLink="/login"> Go to Login </button>
+    </section>
+  </aside>
+</div>

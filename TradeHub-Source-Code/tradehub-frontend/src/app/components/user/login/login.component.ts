@@ -5,7 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { UserLoginDto } from '../../../dtos/user/user-login.dto';
-import { AuthenticationSerivce } from '../../../services/user/authentication.service';
+import { AuthenticationService } from '../../../services/user/authentication.service';
 import { NotificationService } from '../../../services/success-dialog.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
@@ -26,7 +26,7 @@ export class LoginComponent {
 
   loginDto: UserLoginDto = {"username": "", "password": ""};
 
-  constructor(private service: AuthenticationSerivce, 
+  constructor(private service: AuthenticationService,
     private notificationDialog: NotificationService,
     private router: Router
   ) { }

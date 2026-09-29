@@ -2,11 +2,11 @@ import { HttpInterceptorFn, HttpErrorResponse, HttpRequest, HttpHandlerFn } from
 import { inject } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { AuthenticationSerivce } from '../services/user/authentication.service';
+import { AuthenticationService } from '../services/user/authentication.service';
 
 export const AuthInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn) => {
   console.log("Auth interceptor called!");
-  const authService = inject(AuthenticationSerivce);
+  const authService = inject(AuthenticationService);
   const router = inject(Router);
 
   const token = authService.getToken();

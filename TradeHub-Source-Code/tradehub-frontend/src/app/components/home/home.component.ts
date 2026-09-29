@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationSerivce } from '../../services/user/authentication.service';
+import { AuthenticationService } from '../../services/user/authentication.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,7 @@ export class HomeComponent {
 
   constructor(private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthenticationSerivce
+    private authService: AuthenticationService
   ) { }
 
   logout() {

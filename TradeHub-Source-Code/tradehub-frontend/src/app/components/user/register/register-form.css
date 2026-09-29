@@ -1,0 +1,71 @@
+.register-page {
+  display: flex;
+  flex-direction: row;    /* form on the left, links on the right */
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column; /* stack fields vertically */
+  align-items: center;    /* center horizontally */
+  justify-content: center; /* center vertically if desired */
+  gap: 16px;              /* spacing between inputs */
+  flex: 1;
+  max-width: 400px;       /* keeps it narrow on large screens */
+  padding: 20px;
+}
+
+.register-links {
+  display: flex;
+  flex-direction: column;
+  width: 280px;
+  position: sticky;       /* stays in view while scrolling the long form */
+  top: 20px;
+}
+
+/* stack the links under the form on narrow screens */
+@media (max-width: 720px) {
+  .register-page {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .register-links {
+    width: 100%;
+    max-width: 400px;
+    position: static;
+  }
+}
+
+.form-section {
+  align-self: flex-start;
+  margin: 8px 0 0;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  width: 100%;
+  max-width: 200px;
+}
+
+.router-link-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px;
+}
+
+.additional-text {
+  font-size: medium;
+}
