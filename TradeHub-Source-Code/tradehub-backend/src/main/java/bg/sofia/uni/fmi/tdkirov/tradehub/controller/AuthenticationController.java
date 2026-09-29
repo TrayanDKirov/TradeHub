@@ -2,7 +2,9 @@ package bg.sofia.uni.fmi.tdkirov.tradehub.controller;
 
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.MessageResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserLoginDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.BuyerProfile;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.SellerProfile;
@@ -25,25 +27,33 @@ public class AuthenticationController {
     private AuthenticationService service;
 
     @PostMapping("/register/buyer")
-    public ResponseEntity<MessageResponseDto> registerBuyer(@Valid @RequestBody BuyerRegisterDto registerDto) {
-        BuyerProfile buyer = service.registerBuyer(registerDto);
-        MessageResponseDto responseDto = new MessageResponseDto(
-            "User account for " + buyer.getUser().getUsername() + " has been created. ",
+    public ResponseEntity<Map<String, Object>> registerBuyer(@Valid @RequestBody BuyerRegisterDto registerDto) {
+        BuyerResponseDto buyer = service.registerBuyer(registerDto);
+        MessageResponseDto msgResponseDto = new MessageResponseDto(
+            "User account for " + buyer.getUsername() + " has been created. ",
             "User-buyer has been added to the system: " +
-            String.format("(%d, %s). ", buyer.getUserId(), buyer.getUser().getUsername()));
+            String.format("(%d, %s). ", buyer.getId(), buyer.getUsername()));
 
-        return ResponseEntity.ok(responseDto);
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("user-buyer", buyer);
+        result.put("message", msgResponseDto);
+
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/register/seller")
-    public ResponseEntity<MessageResponseDto> registerSeller(@Valid @RequestBody SellerRegisterDto registerDto) {
-        SellerProfile seller = service.registerSeller(registerDto);
-        MessageResponseDto responseDto = new MessageResponseDto(
-            "User account for " + seller.getUser().getUsername() + " has been created. ",
+    public ResponseEntity<Map<String, Object>> registerSeller(@Valid @RequestBody SellerRegisterDto registerDto) {
+        SellerResponseDto seller = service.registerSeller(registerDto);
+        MessageResponseDto msgResponseDto = new MessageResponseDto(
+            "User account for " + seller.getUsername() + " has been created. ",
             "User-seller has been added to the system: " +
-                String.format("(%d, %s). ", seller.getUserId(), seller.getUser().getUsername()));
+                String.format("(%d, %s). ", seller.getId(), seller.getUsername()));
 
-        return ResponseEntity.ok(responseDto);
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("user-seller", seller);
+        result.put("message", msgResponseDto);
+
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/login")

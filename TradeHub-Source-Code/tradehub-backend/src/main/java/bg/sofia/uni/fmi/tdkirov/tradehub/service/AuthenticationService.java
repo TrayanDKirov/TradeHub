@@ -1,7 +1,9 @@
 package bg.sofia.uni.fmi.tdkirov.tradehub.service;
 
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserLoginDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.BuyerProfile;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.SellerProfile;
@@ -13,9 +15,9 @@ public interface AuthenticationService {
      *
      * @param registerDto the register data transfer object for buyer, must not be null.
      *
-     * @return the buyer profile object from the database.
+     * @return the response data transfer object with the data of the new user.
      */
-    BuyerProfile registerBuyer(BuyerRegisterDto registerDto);
+    BuyerResponseDto registerBuyer(BuyerRegisterDto registerDto);
 
     /**
      * Takes a register data transfer object for a seller and with it
@@ -23,9 +25,9 @@ public interface AuthenticationService {
      *
      * @param registerDto the register data transfer object for seller, must not be null.
      *
-     * @return the seller profile object from the database.
+     * @return the response data transfer object with the data of the new user.
      */
-    SellerProfile registerSeller(SellerRegisterDto registerDto);
+    SellerResponseDto registerSeller(SellerRegisterDto registerDto);
 
     /**
      * Validates the username and password and if correct return a login token.

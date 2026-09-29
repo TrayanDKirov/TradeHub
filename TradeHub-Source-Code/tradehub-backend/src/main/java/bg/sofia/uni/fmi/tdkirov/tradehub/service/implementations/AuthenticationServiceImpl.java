@@ -1,7 +1,9 @@
 package bg.sofia.uni.fmi.tdkirov.tradehub.service.implementations;
 
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserLoginDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.BuyerProfile;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.Role;
@@ -57,7 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public BuyerProfile registerBuyer(BuyerRegisterDto registerDto) {
+    public BuyerResponseDto registerBuyer(BuyerRegisterDto registerDto) {
         assertUsernameNotTaken(registerDto.getUsername());
         assertEmailNotTaken(registerDto.getEmail());
 
@@ -67,12 +69,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user = userRepository.save(user);
         BuyerProfile buyer = userMapper.toBuyer(user, registerDto);
 
-        return buyerRepository.save(buyer);
+        buyer = buyerRepository.save(buyer);
+
+        return userMapper.toBuyerResponseDto(buyer);
     }
 
     @Override
     @Transactional
-    public SellerProfile registerSeller(SellerRegisterDto registerDto) {
+    public SellerResponseDto registerSeller(SellerRegisterDto registerDto) {
         assertUsernameNotTaken(registerDto.getUsername());
         assertEmailNotTaken(registerDto.getEmail());
 
@@ -82,7 +86,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user = userRepository.save(user);
         SellerProfile seller = userMapper.toSeller(user, registerDto);
 
-        return sellerRepository.save(seller);
+        seller = sellerRepository.save(seller);
+
+        return userMapper.toSellerResponseDto(seller);
     }
 
     @Override
