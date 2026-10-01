@@ -5,9 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {Router, RouterLink} from '@angular/router';
-import { SellerRegisterDto } from '../../../../dtos/user/seller-register.dto';
+import { SellerRegisterDto } from '../../../../dtos/user/seller/seller-register.dto';
 import { AuthenticationService } from '../../../../services/user/authentication.service';
-import { NotificationService } from '../../../../services/success-dialog.service';
 
 @Component({
   selector: 'app-seller-register',
@@ -28,15 +27,13 @@ export class SellerRegisterComponent {
   };
 
   constructor(private service: AuthenticationService,
-    private notificationDialog: NotificationService,
     private router: Router
   ) { }
 
   onSubmit() {
-    this.service.registerSeller(this.registerDto).subscribe(responseDto => {
-      this.notificationDialog.showSuccess(responseDto);
-
-      this.router.navigate(["/login"]);
+    this.service.registerSeller(this.registerDto).subscribe({
+      next: () => this.router.navigate(["/home"]),
+      error: () => this.registerDto.password = ""
     });
   }
 }

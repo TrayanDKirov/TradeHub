@@ -1,13 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BuyerRegisterDto } from '../../dtos/user/buyer-register.dto';
-import { SellerRegisterDto } from '../../dtos/user/seller-register.dto';
+import { BuyerRegisterDto } from '../../dtos/user/buyer/buyer-register.dto';
+import { SellerRegisterDto } from '../../dtos/user/seller/seller-register.dto';
 import { UserLoginDto } from '../../dtos/user/user-login.dto';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { TokenResponseDto } from '../../dtos/user/token-response.dto';
 import { MessageResponseDto } from '../../dtos/message.dto';
 import { tap, map } from 'rxjs';
+import {unwrap} from '../../utils/api-response.operators';
+import {NotificationService} from '../success-dialog.service';
+import {ApiResponse} from '../../dtos/api-response.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,8 @@ import { tap, map } from 'rxjs';
 export class AuthenticationService {
   authUrl: string = `${environment.backendUrl}/auth`
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+  private notificationService: NotificationService) { }
 
   private withoutEmptyFields<T extends object>(dto: T): Partial<T> {
     return Object.fromEntries(
@@ -23,23 +27,35 @@ export class AuthenticationService {
     ) as Partial<T>;
   }
 
-  registerBuyer(registerDto: BuyerRegisterDto) : Observable<MessageResponseDto> {
-    return this.http.post<MessageResponseDto>(`${this.authUrl}/register/buyer`,
-      this.withoutEmptyFields(registerDto));
+  registerBuyer(registerDto: BuyerRegisterDto) : Observable<void> {
+    return this.http.post<ApiResponse<string>>(`${this.authUrl}/register/buyer`,
+      this.withoutEmptyFields(registerDto))
+      .pipe(
+        unwrap<string>(this.notificationService),
+        tap((token: string) =>
+          localStorage.setItem('authToken', token)),
+        map(() => undefined)
+      );
   }
 
-  registerSeller(registerDto: SellerRegisterDto) : Observable<MessageResponseDto> {
-    return this.http.post<MessageResponseDto>(`${this.authUrl}/register/seller`,
-      this.withoutEmptyFields(registerDto));
+  registerSeller(registerDto: SellerRegisterDto) : Observable<void> {
+    return this.http.post<ApiResponse<string>>(`${this.authUrl}/register/seller`,
+      this.withoutEmptyFields(registerDto))
+      .pipe(
+      unwrap<string>(this.notificationService),
+      tap((token: string) =>
+        localStorage.setItem('authToken', token)),
+      map(() => undefined)
+    );
   }
 
-  login(loginDto: UserLoginDto) : Observable<MessageResponseDto> {
+  login(loginDto: UserLoginDto) : Observable<void> {
     return this.http.post<TokenResponseDto>(`${this.authUrl}/login`, loginDto)
       .pipe(
-        tap(responseDto => {
-          localStorage.setItem('authToken', responseDto.token);
-        }),
-        map(responseDto => responseDto.message)
+        unwrap<string>(this.notificationService),
+        tap((token: string) =>
+          localStorage.setItem('authToken', token)),
+        map(() => undefined)
       );
   }
 
