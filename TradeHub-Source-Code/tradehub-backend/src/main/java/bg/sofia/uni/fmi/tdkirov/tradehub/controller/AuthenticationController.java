@@ -1,13 +1,12 @@
 package bg.sofia.uni.fmi.tdkirov.tradehub.controller;
 
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.ApiResponse;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.MessageResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserLoginDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.BuyerProfile;
-import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.SellerProfile;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,53 +20,41 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 @AllArgsConstructor
 public class AuthenticationController {
     private AuthenticationService service;
 
     @PostMapping("/register/buyer")
-    public ResponseEntity<Map<String, Object>> registerBuyer(@Valid @RequestBody BuyerRegisterDto registerDto) {
-        BuyerResponseDto buyer = service.registerBuyer(registerDto);
+    public ResponseEntity<ApiResponse<String>> registerBuyer(@Valid @RequestBody BuyerRegisterDto registerDto) {
+        String token = service.registerBuyer(registerDto);
         MessageResponseDto msgResponseDto = new MessageResponseDto(
-            "User account for " + buyer.getUsername() + " has been created. ",
+            "User account for " + registerDto.getUsername() + " has been created. ",
             "User-buyer has been added to the system: " +
-            String.format("(%d, %s). ", buyer.getId(), buyer.getUsername()));
+            String.format("(%s). ", registerDto.getUsername()));
 
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put("user-buyer", buyer);
-        result.put("message", msgResponseDto);
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(new ApiResponse<>(msgResponseDto, token));
     }
 
     @PostMapping("/register/seller")
-    public ResponseEntity<Map<String, Object>> registerSeller(@Valid @RequestBody SellerRegisterDto registerDto) {
-        SellerResponseDto seller = service.registerSeller(registerDto);
+    public ResponseEntity<ApiResponse<String>> registerSeller(@Valid @RequestBody SellerRegisterDto registerDto) {
+        String token = service.registerSeller(registerDto);
         MessageResponseDto msgResponseDto = new MessageResponseDto(
-            "User account for " + seller.getUsername() + " has been created. ",
+            "User account for " + registerDto.getUsername() + " has been created. ",
             "User-seller has been added to the system: " +
-                String.format("(%d, %s). ", seller.getId(), seller.getUsername()));
+                String.format("(%s). ", registerDto.getUsername()));
 
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put("user-seller", seller);
-        result.put("message", msgResponseDto);
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(new ApiResponse<>(msgResponseDto, token));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody UserLoginDto loginDto) {
+    public ResponseEntity<ApiResponse<String>> login(@Valid @RequestBody UserLoginDto loginDto) {
         String token = service.login(loginDto);
         MessageResponseDto messageDto = new MessageResponseDto(
             "You have logged in account for " + loginDto.getUsername() + ". ",
             "Token has been given for " +
                 String.format("(%s). ", loginDto.getUsername()));
 
-        Map<String, Object> result = new LinkedHashMap<>();
-        result.put("message", messageDto);
-        result.put("token", token);
-
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(new ApiResponse<>(messageDto, token));
     }
 }

@@ -1,4 +1,4 @@
-import { UserRegisterDto } from "./user-register.dto";
+import { UserRegisterDto } from "../user-register.dto";
 
 export interface SellerRegisterDto extends UserRegisterDto {
     displayName: string;

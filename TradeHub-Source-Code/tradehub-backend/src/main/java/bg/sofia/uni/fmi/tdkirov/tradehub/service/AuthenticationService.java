@@ -15,9 +15,9 @@ public interface AuthenticationService {
      *
      * @param registerDto the register data transfer object for buyer, must not be null.
      *
-     * @return the response data transfer object with the data of the new user.
+     * @return the token for access to the system.
      */
-    BuyerResponseDto registerBuyer(BuyerRegisterDto registerDto);
+    String registerBuyer(BuyerRegisterDto registerDto);
 
     /**
      * Takes a register data transfer object for a seller and with it
@@ -25,9 +25,9 @@ public interface AuthenticationService {
      *
      * @param registerDto the register data transfer object for seller, must not be null.
      *
-     * @return the response data transfer object with the data of the new user.
+     * @return the token for access to the system.
      */
-    SellerResponseDto registerSeller(SellerRegisterDto registerDto);
+    String registerSeller(SellerRegisterDto registerDto);
 
     /**
      * Validates the username and password and if correct return a login token.

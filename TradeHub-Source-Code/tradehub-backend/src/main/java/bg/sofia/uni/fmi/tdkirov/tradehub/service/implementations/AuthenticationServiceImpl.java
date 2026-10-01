@@ -59,7 +59,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     @Transactional
-    public BuyerResponseDto registerBuyer(BuyerRegisterDto registerDto) {
+    public String registerBuyer(BuyerRegisterDto registerDto) {
         assertUsernameNotTaken(registerDto.getUsername());
         assertEmailNotTaken(registerDto.getEmail());
 
@@ -69,14 +69,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user = userRepository.save(user);
         BuyerProfile buyer = userMapper.toBuyer(user, registerDto);
 
-        buyer = buyerRepository.save(buyer);
+        buyerRepository.save(buyer);
 
-        return userMapper.toBuyerResponseDto(buyer);
+        return jwtUtil.generateToken(user.getUsername());
     }
 
     @Override
     @Transactional
-    public SellerResponseDto registerSeller(SellerRegisterDto registerDto) {
+    public String registerSeller(SellerRegisterDto registerDto) {
         assertUsernameNotTaken(registerDto.getUsername());
         assertEmailNotTaken(registerDto.getEmail());
 
@@ -86,9 +86,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user = userRepository.save(user);
         SellerProfile seller = userMapper.toSeller(user, registerDto);
 
-        seller = sellerRepository.save(seller);
+        sellerRepository.save(seller);
 
-        return userMapper.toSellerResponseDto(seller);
+        return jwtUtil.generateToken(user.getUsername());
     }
 
     @Override

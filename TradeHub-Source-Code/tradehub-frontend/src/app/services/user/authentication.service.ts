@@ -5,8 +5,6 @@ import { SellerRegisterDto } from '../../dtos/user/seller/seller-register.dto';
 import { UserLoginDto } from '../../dtos/user/user-login.dto';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { TokenResponseDto } from '../../dtos/user/token-response.dto';
-import { MessageResponseDto } from '../../dtos/message.dto';
 import { tap, map } from 'rxjs';
 import {unwrap} from '../../utils/api-response.operators';
 import {NotificationService} from '../success-dialog.service';
@@ -50,7 +48,7 @@ export class AuthenticationService {
   }
 
   login(loginDto: UserLoginDto) : Observable<void> {
-    return this.http.post<TokenResponseDto>(`${this.authUrl}/login`, loginDto)
+    return this.http.post<ApiResponse<string>>(`${this.authUrl}/login`, loginDto)
       .pipe(
         unwrap<string>(this.notificationService),
         tap((token: string) =>

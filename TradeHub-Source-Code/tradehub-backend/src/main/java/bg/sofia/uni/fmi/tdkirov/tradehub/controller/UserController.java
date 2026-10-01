@@ -1,14 +1,32 @@
 
 package bg.sofia.uni.fmi.tdkirov.tradehub.controller;
 
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.ApiResponse;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.MessageResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserPreviewDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.security.Principal;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/v1/user")
 public class UserController {
-    private UserService userService;
+    private UserService service;
+
+    @RequestMapping("/preview")
+    private ResponseEntity<ApiResponse<UserPreviewDto>> getUserPreview(Principal principal) {
+        UserPreviewDto result = service.getUserPreview(principal.getName());
+
+        MessageResponseDto msgResponseDto = new MessageResponseDto(
+            "",
+            "Preview was send for user: " +
+                String.format("(%s). ", principal.getName()));
+
+        return ResponseEntity.ok(new ApiResponse<>(msgResponseDto, result));
+    }
 }

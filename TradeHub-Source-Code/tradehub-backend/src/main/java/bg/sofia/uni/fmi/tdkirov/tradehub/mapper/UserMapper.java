@@ -4,8 +4,8 @@ import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserPreviewDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserRegisterDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.BuyerProfile;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.Role;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.SellerProfile;
@@ -51,4 +51,10 @@ public class UserMapper {
             seller.getContactPhone(), seller.getDescription());
 
     }
+
+    public UserPreviewDto toPreviewDto(User user) {
+        return new UserPreviewDto(user.getUsername(), user.getRole().getRoleName());
+
+    }
 }
+

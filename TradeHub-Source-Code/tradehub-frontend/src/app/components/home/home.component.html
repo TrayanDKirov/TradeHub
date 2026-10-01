@@ -1,11 +1,15 @@
-<section>
-  <div class="example-button-row">
-    <div class="example-flex-container">
-      <button matFab extended (click)="logout()">
-        <mat-icon>logout</mat-icon>
-        Logout
-      </button>
-    </div>
-    Hello this is TradeHub
+<header class="home-toolbar">
+  <div class="user-box">
+    <mat-icon class="user-icon">account_circle</mat-icon>
+    <span class="user-name">{{ userPreview?.username }}</span>
   </div>
+
+  <button matButton="outlined" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    Logout
+  </button>
+</header>
+
+<section>
+  Hello this is TradeHub
 </section>
