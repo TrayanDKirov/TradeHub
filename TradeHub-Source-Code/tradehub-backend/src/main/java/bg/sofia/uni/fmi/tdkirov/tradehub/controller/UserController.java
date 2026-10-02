@@ -3,8 +3,8 @@ package bg.sofia.uni.fmi.tdkirov.tradehub.controller;
 
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.ApiResponse;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.MessageResponseDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerResponseDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.buyer.BuyerResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.seller.SellerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserPreviewDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.UserService;
 import lombok.AllArgsConstructor;

@@ -2,8 +2,8 @@ package bg.sofia.uni.fmi.tdkirov.tradehub.controller;
 
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.ApiResponse;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.MessageResponseDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerRegisterDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.buyer.BuyerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.seller.SellerRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserLoginDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.AuthenticationService;
 import jakarta.validation.Valid;

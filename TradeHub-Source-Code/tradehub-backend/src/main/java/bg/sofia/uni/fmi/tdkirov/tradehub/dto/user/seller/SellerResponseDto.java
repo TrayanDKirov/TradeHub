@@ -1,5 +1,6 @@
-package bg.sofia.uni.fmi.tdkirov.tradehub.dto.user;
+package bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.seller;
 
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserResponseDto;
 import lombok.Data;
 
 @Data

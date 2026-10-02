@@ -1,5 +1,6 @@
-package bg.sofia.uni.fmi.tdkirov.tradehub.dto.user;
+package bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.buyer;
 
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserRegisterDto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,9 +1,9 @@
 
 package bg.sofia.uni.fmi.tdkirov.tradehub.mapper;
-import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerRegisterDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerResponseDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerRegisterDto;
-import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.buyer.BuyerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.buyer.BuyerResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.seller.SellerRegisterDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.seller.SellerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserPreviewDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.BuyerProfile;
