@@ -17,10 +17,12 @@ import bg.sofia.uni.fmi.tdkirov.tradehub.repository.SellerProfileRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.repository.UserRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.security.JwtUtil;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.AuthenticationService;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@AllArgsConstructor
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserMapper userMapper;
@@ -29,19 +31,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final SellerProfileRepository sellerRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-
-    public AuthenticationServiceImpl(UserRepository userRepo,
-                                     BuyerProfileRepository buyerRepository,
-                                     SellerProfileRepository sellerRepository,
-                                     PasswordEncoder passwordEncoder,
-                                     JwtUtil jwtUtil, UserMapper userMapper) {
-        this.userMapper = userMapper;
-        this.userRepository = userRepo;
-        this.buyerRepository = buyerRepository;
-        this.sellerRepository = sellerRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-    }
 
     private void assertUsernameNotTaken(String username) {
         if (userRepository.existsByUsername(username)) {

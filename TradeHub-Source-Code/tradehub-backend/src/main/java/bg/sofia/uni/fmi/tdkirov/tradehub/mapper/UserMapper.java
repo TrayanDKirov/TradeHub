@@ -2,6 +2,7 @@
 package bg.sofia.uni.fmi.tdkirov.tradehub.mapper;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.buyer.BuyerRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.buyer.BuyerResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.seller.SellerInfoDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.seller.SellerRegisterDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.seller.SellerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserPreviewDto;
@@ -33,6 +34,13 @@ public class UserMapper {
         return new SellerProfile(user, registerDto.getDisplayName(),
             registerDto.getContactEmail(), registerDto.getContactPhone(),
             registerDto.getDescription());
+    }
+
+    public SellerInfoDto toSellerInfo(SellerProfile seller) {
+        return new SellerInfoDto(seller.getUserId(), seller.getDisplayName(),
+            seller.getContactEmail(), seller.getContactPhone(),
+            seller.getDescription(),
+            dateMapper.toStringDateOnly(seller.getUser().getCreatedAt()));
     }
 
     public BuyerResponseDto toBuyerResponseDto(BuyerProfile buyer) {
