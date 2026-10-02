@@ -1,0 +1,16 @@
+<section class="router-link-section">
+  <button matFab extended routerLink="/home">
+    <mat-icon>arrow_left_alt</mat-icon>
+    Back to Home
+  </button>
+</section>
+
+<mat-list role="list">
+  <mat-list-item role="listitem">Username:           {{seller?.username}}</mat-list-item>
+  <mat-list-item role="listitem">Email:              {{seller?.email}}</mat-list-item>
+  <mat-list-item role="listitem">Phone:              {{seller?.phone}}</mat-list-item>
+  <mat-list-item role="listitem">Display name:       {{seller?.displayName}}</mat-list-item>
+  <mat-list-item role="listitem">Contact email:      {{seller?.contactEmail}}</mat-list-item>
+  <mat-list-item role="listitem">Contact phone:      {{seller?.contactPhone}}</mat-list-item>
+  <mat-list-item role="listitem">Public description: {{seller?.description}}</mat-list-item>
+</mat-list>

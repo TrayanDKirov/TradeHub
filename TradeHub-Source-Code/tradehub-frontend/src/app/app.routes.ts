@@ -4,6 +4,8 @@ import { SellerRegisterComponent } from './components/user/register/seller-regis
 import { LoginComponent } from './components/user/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import {HomeComponent} from './components/home/home.component';
+import {BuyerComponent} from './components/user/profile/buyer/buyer.component';
+import {SellerComponent} from './components/user/profile/seller/seller.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -14,5 +16,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent},
 
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: 'profile/buyer', component: BuyerComponent, canActivate: [AuthGuard]},
+  { path: 'profile/seller', component: SellerComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home', pathMatch: 'full'}
 ];

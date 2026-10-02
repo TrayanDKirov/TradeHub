@@ -3,6 +3,8 @@ package bg.sofia.uni.fmi.tdkirov.tradehub.controller;
 
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.ApiResponse;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.MessageResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.BuyerResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.SellerResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.user.UserPreviewDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.UserService;
 import lombok.AllArgsConstructor;
@@ -25,6 +27,30 @@ public class UserController {
         MessageResponseDto msgResponseDto = new MessageResponseDto(
             "",
             "Preview was send for user: " +
+                String.format("(%s). ", principal.getName()));
+
+        return ResponseEntity.ok(new ApiResponse<>(msgResponseDto, result));
+    }
+
+    @RequestMapping("/buyer")
+    private ResponseEntity<ApiResponse<BuyerResponseDto>> getBuyer(Principal principal) {
+        BuyerResponseDto result = service.getBuyer(principal.getName());
+
+        MessageResponseDto msgResponseDto = new MessageResponseDto(
+            "",
+            "Data for buyer was send for user: " +
+                String.format("(%s). ", principal.getName()));
+
+        return ResponseEntity.ok(new ApiResponse<>(msgResponseDto, result));
+    }
+
+    @RequestMapping("/seller")
+    private ResponseEntity<ApiResponse<SellerResponseDto>> getSeller(Principal principal) {
+        SellerResponseDto result = service.getSeller(principal.getName());
+
+        MessageResponseDto msgResponseDto = new MessageResponseDto(
+            "",
+            "Data for seller was send for user: " +
                 String.format("(%s). ", principal.getName()));
 
         return ResponseEntity.ok(new ApiResponse<>(msgResponseDto, result));

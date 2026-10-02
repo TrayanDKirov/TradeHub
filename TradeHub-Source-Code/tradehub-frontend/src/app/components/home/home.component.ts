@@ -13,7 +13,7 @@ import {UserPreviewDto} from '../../dtos/user/user-preview.dto';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  userPreview: UserPreviewDto = {username: "username"};
+  userPreview: UserPreviewDto = {username: "username", role: ""};
 
   constructor(private userService: UserService,
     private router: Router,
@@ -21,6 +21,16 @@ export class HomeComponent {
     private authService: AuthenticationService,
     private cdr: ChangeDetectorRef
   ) { }
+
+  openProfile() {
+    const role = this.userPreview.role?.toLowerCase();
+
+    if (role === "buyer") {
+      this.router.navigate(["/profile/buyer"]);
+    } else if (role === "seller") {
+      this.router.navigate(["/profile/seller"]);
+    }
+  }
 
   logout() {
     this.authService.logout();

@@ -1,0 +1,17 @@
+<section class="router-link-section">
+  <button matFab extended routerLink="/home">
+    <mat-icon>arrow_left_alt</mat-icon>
+    Back to Home
+  </button>
+</section>
+
+<mat-list role="list">
+  <mat-list-item role="listitem">Username:             {{buyer?.username}}</mat-list-item>
+  <mat-list-item role="listitem">Email:                {{buyer?.email}}</mat-list-item>
+  <mat-list-item role="listitem">Phone:                {{buyer?.phone}}</mat-list-item>
+  <mat-list-item role="listitem">Full name:            {{buyer?.fullName}}</mat-list-item>
+  <mat-list-item role="listitem">Shipping street:      {{buyer?.shippingStreet}}</mat-list-item>
+  <mat-list-item role="listitem">Sipping city:         {{buyer?.shippingCity}}</mat-list-item>
+  <mat-list-item role="listitem">Shipping postal code: {{buyer?.shippingPostalCode}}</mat-list-item>
+  <mat-list-item role="listitem">Shipping country:     {{buyer?.shippingCountry}}</mat-list-item>
+</mat-list>

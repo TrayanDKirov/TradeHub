@@ -1,5 +1,9 @@
 <header class="home-toolbar">
-  <div class="user-box">
+  <div class="user-box"
+       role="button"
+       tabindex="0"
+       (click)="openProfile()"
+       (keydown.enter)="openProfile()">
     <mat-icon class="user-icon">account_circle</mat-icon>
     <span class="user-name">{{ userPreview?.username }}</span>
   </div>
