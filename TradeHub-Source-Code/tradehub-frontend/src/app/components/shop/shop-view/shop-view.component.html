@@ -1,0 +1,29 @@
+<section class="router-link-section">
+  <button matFab extended routerLink="/shops/my">
+    <mat-icon>arrow_left_alt</mat-icon>
+    Back to Shops
+  </button>
+</section>
+
+@if (shop) {
+  <article class="shop">
+    <img class="shop-picture" [src]="pictureSrc" [alt]="shop.name">
+
+    <h1 class="shop-name">{{ shop.name }}</h1>
+    <p class="shop-created">Created on {{ shop.createdAt }}</p>
+
+    <h2>Seller</h2>
+    <mat-list role="list">
+      <mat-list-item role="listitem">Name:          {{ shop.seller.displayName }}</mat-list-item>
+      @if (shop.seller.contactEmail) {
+        <mat-list-item role="listitem">Contact email: {{ shop.seller.contactEmail }}</mat-list-item>
+      }
+      @if (shop.seller.contactPhone) {
+        <mat-list-item role="listitem">Contact phone: {{ shop.seller.contactPhone }}</mat-list-item>
+      }
+      @if (shop.seller.description) {
+        <mat-list-item role="listitem">About:         {{ shop.seller.description }}</mat-list-item>
+      }
+    </mat-list>
+  </article>
+}

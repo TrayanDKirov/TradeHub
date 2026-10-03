@@ -30,7 +30,7 @@ public class ShopServiceImpl implements ShopService {
     private FileStorageService fileStorageService;
 
     @Override
-    public ShopResponseDto createShop(ShopCreateDto createDto, MultipartFile picture,  String currUsername) {
+    public ShopPreviewDto createShop(ShopCreateDto createDto, MultipartFile picture,  String currUsername) {
         if (!sellerRepository.existsByUserUsername(currUsername)) {
             throw new SellerNotFound(String.format(
                 "There is no seller with this username - %s",
@@ -50,7 +50,7 @@ public class ShopServiceImpl implements ShopService {
             throw e;
         }
 
-        return mapper.toResponseDto(shop);
+        return mapper.toPreviewDto(shop);
     }
 
     @Override

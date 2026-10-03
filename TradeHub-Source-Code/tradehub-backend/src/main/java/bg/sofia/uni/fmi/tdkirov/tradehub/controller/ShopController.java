@@ -62,11 +62,11 @@ public class ShopController {
     }
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ApiResponse<ShopResponseDto>> createShop(
+    public ResponseEntity<ApiResponse<ShopPreviewDto>> createShop(
             @Valid @RequestPart("shop") ShopCreateDto createDto,
             @RequestPart("picture") MultipartFile picture,
             Principal principal) {
-        ShopResponseDto result = shopService.createShop(createDto, picture, principal.getName());
+        ShopPreviewDto result = shopService.createShop(createDto, picture, principal.getName());
 
         MessageResponseDto msgResponseDto = new MessageResponseDto(
             "Shop " + result.getName() + " has been created. ",

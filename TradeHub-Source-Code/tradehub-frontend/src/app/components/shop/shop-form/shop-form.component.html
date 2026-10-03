@@ -1,0 +1,36 @@
+<section class="router-link-section">
+  <button matFab extended routerLink="/home">
+    <mat-icon>arrow_left_alt</mat-icon>
+  </button>
+</section>
+
+<form (ngSubmit)="onSubmit()" #shopForm="ngForm">
+  <mat-form-field>
+    <mat-label>Shop name</mat-label>
+    <input matInput type="text" [(ngModel)]="createDto.name" name="name"
+           required minlength="3" maxlength="50">
+  </mat-form-field>
+
+  <div class="picture-field">
+    <input #pictureInput type="file" hidden
+           [accept]="acceptedTypes"
+           (change)="onPictureSelected($event)">
+
+    <button matButton="outlined" type="button" (click)="pictureInput.click()">
+      <mat-icon>image</mat-icon>
+      {{ picture ? 'Change picture' : 'Choose picture' }}
+    </button>
+
+    @if (picture) {
+      <span class="picture-name">{{ picture.name }}</span>
+    }
+  </div>
+
+  @if (picturePreview) {
+    <img class="picture-preview" [src]="picturePreview" alt="Shop picture preview">
+  }
+
+  <button matButton="tonal" type="submit" [disabled]="shopForm.invalid || !picture">
+    Create
+  </button>
+</form>

@@ -1,14 +1,14 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthenticationService } from '../../services/user/authentication.service';
 import {UserService} from '../../services/user/user.service';
 import {UserPreviewDto} from '../../dtos/user/user-preview.dto';
 
 @Component({
   selector: 'app-home',
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

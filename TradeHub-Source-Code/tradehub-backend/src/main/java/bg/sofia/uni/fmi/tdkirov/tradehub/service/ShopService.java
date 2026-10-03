@@ -17,9 +17,9 @@ public interface ShopService {
      * @param picture file of the picture for the shop, must not be null.
      * @param currUsername the username of the current user.
      *
-     * @return the buyer response data transfer object.
+     * @return the buyer preview data transfer object.
      */
-    ShopResponseDto createShop(ShopCreateDto createDto, MultipartFile picture, String currUsername);
+    ShopPreviewDto createShop(ShopCreateDto createDto, MultipartFile picture, String currUsername);
 
     /**
      * Retrieves all the shops of this user from the database,

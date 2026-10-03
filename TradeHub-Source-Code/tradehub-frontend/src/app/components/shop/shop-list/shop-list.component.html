@@ -1,0 +1,26 @@
+<section class="router-link-section">
+  <button matFab extended routerLink="/shops/create"> Create shop </button>
+</section>
+<div class="cardContainer">
+  @for (shop of shops; track shop.id) {
+    <mat-card class="card" appearance="outlined">
+      <mat-card-header class="card-header">
+        <mat-card-title class="card-title">  {{shop.name}}  </mat-card-title>
+        <mat-card-subtitle class="card-subtitle"> {{shop.sellerName}} </mat-card-subtitle>
+      </mat-card-header>
+
+      <img mat-card-image [src]="pictureSrc(shop)" [alt]="shop.name">
+
+      <mat-card-content class="card-description">
+        <p>{{shop.createdAt}}</p>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button matButton (click)="viewShop(shop.id)">OPEN</button>
+        <button mat-raised-button color="warn" (click)="deleteShop(shop.id)">DELETE</button>
+      </mat-card-actions>
+    </mat-card>
+  } @empty {
+    <p>No shops yet.</p>
+  }
+</div>
