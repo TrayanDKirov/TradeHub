@@ -32,9 +32,13 @@ services:
       # there are no Flyway/Liquibase migrations yet. Switch to "validate"
       # once a migration tool owns the schema.
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    volumes:
+      # Keeps uploaded pictures when the container is rebuilt
+      - tradehub-uploads:/app/uploads
     depends_on:
       db:
         condition: service_healthy
 
 volumes:
   tradehub-db-data:
+  tradehub-uploads:

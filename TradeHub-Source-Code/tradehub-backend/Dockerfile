@@ -16,6 +16,10 @@ FROM eclipse-temurin:25-jre AS runtime
 WORKDIR /app
 
 RUN addgroup --system spring && adduser --system --ingroup spring spring
+
+# /app is owned by root, so the upload directory must be created and handed
+# to the spring user before switching to it.
+RUN mkdir -p /app/uploads && chown spring:spring /app/uploads
 USER spring:spring
 
 COPY --from=build /app/target/*.jar app.jar
