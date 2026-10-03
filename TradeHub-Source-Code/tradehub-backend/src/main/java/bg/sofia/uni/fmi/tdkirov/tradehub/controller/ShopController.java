@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,24 +29,29 @@ import java.util.List;
 public class ShopController {
     private ShopService shopService;
 
-    @GetMapping("/all")
-    public ResponseEntity<ApiResponse<List<ShopPreviewDto>>> getAllShops(Principal principal) {
-        List<ShopPreviewDto> result = shopService.getAllShopsOfUser(principal.getName());
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<ShopPreviewDto>>> getShops(
+            @RequestParam(required = false) Long userId) {
+        List<ShopPreviewDto> result = userId == null
+            ? shopService.getAllShops()
+            : shopService.getAllShopsOfUser(userId);
 
         MessageResponseDto msgResponseDto = new MessageResponseDto(
-            "Shops retrieved",
-            String.format("Shops were send for user: (%s). ", principal.getName()));
+            "",
+            userId == null
+                ? "All shops were send. "
+                : String.format("Shops were send for user with id: (%d). ", userId));
 
         return ResponseEntity.ok(new ApiResponse<>(msgResponseDto, result));
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<ApiResponse<List<ShopPreviewDto>>> getAllShopsOfUser(@PathVariable Long userId) {
-        List<ShopPreviewDto> result = shopService.getAllShopsOfUser(userId);
+    @GetMapping("/my")
+    public ResponseEntity<ApiResponse<List<ShopPreviewDto>>> getMyShops(Principal principal) {
+        List<ShopPreviewDto> result = shopService.getAllShopsOfUser(principal.getName());
 
         MessageResponseDto msgResponseDto = new MessageResponseDto(
             "",
-            String.format("Shops were send for user with id: (%d). ", userId));
+            String.format("Shops were send for user: (%s). ", principal.getName()));
 
         return ResponseEntity.ok(new ApiResponse<>(msgResponseDto, result));
     }

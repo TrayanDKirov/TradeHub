@@ -13,13 +13,21 @@ public interface ShopService {
      * Takes a shop create data transfer object, creates a shop and saves it in the database.
      *
      *
-     * @param createDto the create dta transfer object for the shop.
+     * @param createDto the create data transfer object for the shop.
      * @param picture file of the picture for the shop, must not be null.
      * @param currUsername the username of the current user.
      *
      * @return the buyer preview data transfer object.
      */
     ShopPreviewDto createShop(ShopCreateDto createDto, MultipartFile picture, String currUsername);
+
+    /**
+     * Retrieves all the shops in the system from the database,
+     * maps each of them to a shop preview data transfer object and returns it.
+     *
+     * @return a list of shop preview data transfer objects.
+     */
+    List<ShopPreviewDto> getAllShops();
 
     /**
      * Retrieves all the shops of this user from the database,

@@ -1,6 +1,8 @@
-<section class="router-link-section">
-  <button matFab extended routerLink="/shops/create"> Create shop </button>
-</section>
+@if (mine) {
+  <section class="router-link-section">
+    <button matFab extended routerLink="/shops/create"> Create shop </button>
+  </section>
+}
 <div class="cardContainer">
   @for (shop of shops; track shop.id) {
     <mat-card class="card" appearance="outlined">
@@ -17,7 +19,9 @@
 
       <mat-card-actions>
         <button matButton (click)="viewShop(shop.id)">OPEN</button>
-        <button mat-raised-button color="warn" (click)="deleteShop(shop.id)">DELETE</button>
+        @if (mine) {
+          <button mat-raised-button color="warn" (click)="deleteShop(shop.id)">DELETE</button>
+        }
       </mat-card-actions>
     </mat-card>
   } @empty {

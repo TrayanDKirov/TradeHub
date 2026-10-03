@@ -1,4 +1,6 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {ChangeDetectorRef, Component, DestroyRef} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {Observable, switchMap} from 'rxjs';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
@@ -14,29 +16,41 @@ import {environment} from '../../../../environments/environment';
 })
 export class ShopListComponent {
   shops: ShopPreviewDto[] = [];
+  mine = false;
 
   constructor(private shopService: ShopService,
     private router: Router,
     private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private destroyRef: DestroyRef) {
   }
 
   ngOnInit() {
-    this.getShops();
-  }
+    this.mine = this.route.snapshot.data['mine'] === true;
 
-  // The backend runs on another origin, so a relative picture URL must be prefixed with its host
-  pictureSrc(shop: ShopPreviewDto): string {
-    return `${environment.host}${shop.pictureUrl}`;
-  }
-
-  getShops() {
-    this.shopService.getShops().subscribe(
-      shops => {
+    this.route.queryParamMap
+      .pipe(
+        switchMap(params => this.loadShops(params.get('userId'))),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(shops => {
         this.shops = shops;
         this.cdr.markForCheck();
-      }
-    )
+      });
+  }
+
+  private loadShops(userId: string | null): Observable<ShopPreviewDto[]> {
+    if (this.mine) {
+      return this.shopService.getMyShops();
+    }
+
+    return userId === null
+      ? this.shopService.getShops()
+      : this.shopService.getShops(Number(userId));
+  }
+
+  pictureSrc(shop: ShopPreviewDto): string {
+    return `${environment.host}${shop.pictureUrl}`;
   }
 
   viewShop(id: number) {

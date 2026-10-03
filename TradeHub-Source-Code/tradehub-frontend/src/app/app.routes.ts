@@ -22,7 +22,8 @@ export const routes: Routes = [
   { path: 'profile/buyer', component: BuyerComponent, canActivate: [AuthGuard]},
   { path: 'profile/seller', component: SellerComponent, canActivate: [AuthGuard]},
 
-  { path: 'shops/my', component: ShopListComponent, canActivate: [AuthGuard]},
+  { path: 'shops', component: ShopListComponent, canActivate: [AuthGuard]},
+  { path: 'shops/my', component: ShopListComponent, canActivate: [AuthGuard], data: {mine: true}},
   { path: 'shops/create', component: ShopFormComponent, canActivate: [AuthGuard]},
   { path: 'shop/:id', component: ShopViewComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home', pathMatch: 'full'}

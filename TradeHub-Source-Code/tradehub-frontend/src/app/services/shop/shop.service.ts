@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {ApiResponse} from '../../dtos/api-response.dto';
@@ -18,15 +18,20 @@ export class ShopService {
   constructor(private http: HttpClient,
     private notificationService: NotificationService) { }
 
-  getShops(): Observable<ShopPreviewDto[]> {
-    return this.http.get<ApiResponse<ShopPreviewDto[]>>(`${this.shopUrl}/all`)
+  getShops(userId?: number): Observable<ShopPreviewDto[]> {
+    let params = new HttpParams();
+    if (userId !== undefined) {
+      params = params.set('userId', userId);
+    }
+
+    return this.http.get<ApiResponse<ShopPreviewDto[]>>(this.shopUrl, {params})
       .pipe(
         unwrap(this.notificationService)
       );
   }
 
-  getShopsOfUser(userId: number): Observable<ShopPreviewDto[]> {
-    return this.http.get<ApiResponse<ShopPreviewDto[]>>(`${this.shopUrl}/user/${userId}`)
+  getMyShops(): Observable<ShopPreviewDto[]> {
+    return this.http.get<ApiResponse<ShopPreviewDto[]>>(`${this.shopUrl}/my`)
       .pipe(
         unwrap(this.notificationService)
       );

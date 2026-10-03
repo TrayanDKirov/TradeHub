@@ -54,6 +54,18 @@ public class ShopServiceImpl implements ShopService {
     }
 
     @Override
+    public List<ShopPreviewDto> getAllShops() {
+        List<Shop> shops = repository.findAll();
+
+        List<ShopPreviewDto> shopPreviews = new ArrayList<>();
+        for (Shop shop: shops) {
+            shopPreviews.add(mapper.toPreviewDto(shop));
+        }
+
+        return shopPreviews;
+    }
+
+    @Override
     public List<ShopPreviewDto> getAllShopsOfUser(Long userId) {
         List<Shop> shops = repository.findAllByCreatedByUserId(userId);
 
