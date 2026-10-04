@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class UserPreviewDto  {
+    private Long id;
     private String username;
     private String role;
 }

@@ -61,7 +61,7 @@ public class UserMapper {
     }
 
     public UserPreviewDto toPreviewDto(User user) {
-        return new UserPreviewDto(user.getUsername(), user.getRole().getRoleName());
+        return new UserPreviewDto(user.getId(), user.getUsername(), user.getRole().getRoleName());
 
     }
 }

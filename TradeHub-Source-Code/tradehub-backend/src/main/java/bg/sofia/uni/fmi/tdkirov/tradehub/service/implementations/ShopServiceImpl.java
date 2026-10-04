@@ -4,17 +4,23 @@ import bg.sofia.uni.fmi.tdkirov.tradehub.dto.shop.ShopCreateDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.shop.ShopPreviewDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.shop.ShopResponseDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.shop.Shop;
+import bg.sofia.uni.fmi.tdkirov.tradehub.entity.shop.ShopItem;
 import bg.sofia.uni.fmi.tdkirov.tradehub.entity.user.SellerProfile;
+import bg.sofia.uni.fmi.tdkirov.tradehub.exception.shop.ShopAccessDenied;
 import bg.sofia.uni.fmi.tdkirov.tradehub.exception.shop.ShopNotFound;
 import bg.sofia.uni.fmi.tdkirov.tradehub.exception.user.seller.SellerNotFound;
 import bg.sofia.uni.fmi.tdkirov.tradehub.mapper.ShopMapper;
+import bg.sofia.uni.fmi.tdkirov.tradehub.repository.CartItemRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.repository.SellerProfileRepository;
+import bg.sofia.uni.fmi.tdkirov.tradehub.repository.ShopItemRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.repository.ShopRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.FileStorageService;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.ShopService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -28,6 +34,8 @@ public class ShopServiceImpl implements ShopService {
     private ShopRepository repository;
     private ShopMapper mapper;
     private SellerProfileRepository sellerRepository;
+    private ShopItemRepository shopItemRepository;
+    private CartItemRepository cartItemRepository;
     private FileStorageService fileStorageService;
 
     @Override
@@ -88,6 +96,36 @@ public class ShopServiceImpl implements ShopService {
         }
 
         return shopPreviews;
+    }
+
+    @Transactional
+    @Override
+    public void deleteShop(Long id, String currUsername) {
+        Shop shop = repository.findById(id)
+            .orElseThrow(() -> new ShopNotFound("The shop is missing. "));
+
+        if (!shop.getCreatedBy().getUser().getUsername().equals(currUsername)) {
+            throw new ShopAccessDenied(String.format(
+                "The shop with id %d is not owned by %s",
+                id, currUsername));
+        }
+
+        List<String> picturePaths = new ArrayList<>();
+        picturePaths.add(shop.getPicturePath());
+        for (ShopItem item : shop.getItems()) {
+            picturePaths.add(item.getPicturePath());
+        }
+
+        cartItemRepository.deleteAllByShopId(id);
+        shopItemRepository.deleteAll(shop.getItems());
+        repository.delete(shop);
+
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                picturePaths.forEach(fileStorageService::delete);
+            }
+        });
     }
 
     @Transactional(readOnly = true)

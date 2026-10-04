@@ -3,6 +3,7 @@ package bg.sofia.uni.fmi.tdkirov.tradehub.service;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.shop.ShopCreateDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.shop.ShopPreviewDto;
 import bg.sofia.uni.fmi.tdkirov.tradehub.dto.shop.ShopResponseDto;
+import bg.sofia.uni.fmi.tdkirov.tradehub.exception.shop.ShopAccessDenied;
 import bg.sofia.uni.fmi.tdkirov.tradehub.exception.shop.ShopNotFound;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,4 +63,16 @@ public interface ShopService {
      * @return the buyer response data transfer object.
      */
     ShopResponseDto getShopById(Long id);
+
+    /**
+     * Deletes the shop with this identifier together with its items, removes them
+     * from all shopping carts and deletes their pictures.
+     *
+     * @param id           the identifier for the shop, must not be null.
+     * @param currUsername the username of the current user.
+     *
+     * @throws ShopNotFound     if a shop is not found.
+     * @throws ShopAccessDenied if the shop is not owned by the current user.
+     */
+    void deleteShop(Long id, String currUsername);
 }
