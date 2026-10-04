@@ -14,6 +14,7 @@ import bg.sofia.uni.fmi.tdkirov.tradehub.service.FileStorageService;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.ShopService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -89,6 +90,7 @@ public class ShopServiceImpl implements ShopService {
         return shopPreviews;
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ShopResponseDto getShopById(Long id) {
         if (!repository.existsById(id)) {

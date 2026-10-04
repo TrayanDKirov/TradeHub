@@ -39,6 +39,10 @@ public class SellerProfile {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean verified = false;
 
+    public SellerProfile(Long id) {
+        this.userId = id;
+    }
+
     public SellerProfile(User user, String displayName, String contactEmail,
                          String contactPhone, String description) {
         this.user = user;

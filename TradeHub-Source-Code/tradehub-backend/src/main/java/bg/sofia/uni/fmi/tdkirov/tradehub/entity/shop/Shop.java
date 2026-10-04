@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,6 +19,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -41,10 +44,19 @@ public class Shop {
     @Setter(AccessLevel.NONE)
     private SellerProfile createdBy;
 
+    // The relation is owned by ShopItem.shop, so this list adds no column to shops
+    @OneToMany(mappedBy = "shop", fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
+    private List<ShopItem> items = new ArrayList<>();
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     @Setter(AccessLevel.NONE)
     private LocalDateTime createdAt;
+
+    public Shop(Long id) {
+        this.id = id;
+    }
 
     public Shop(String name, String picturePath, SellerProfile createdBy) {
         this.name = name;
