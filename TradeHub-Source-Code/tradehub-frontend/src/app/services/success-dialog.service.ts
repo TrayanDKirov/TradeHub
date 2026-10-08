@@ -19,6 +19,10 @@ export class NotificationService {
       message = messageDto.developerMessage;
     }
 
+    if (!message?.trim()) {
+      return;
+    }
+
     this.dialog.open(SuccessDialogComponent, { data: { message } });
   }
 }

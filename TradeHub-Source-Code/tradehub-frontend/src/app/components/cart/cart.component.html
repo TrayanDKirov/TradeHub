@@ -1,0 +1,70 @@
+<section class="router-link-section">
+  <button matFab extended routerLink="/home">
+    <mat-icon>arrow_left_alt</mat-icon>
+    Back to Home
+  </button>
+</section>
+
+@if (cart) {
+  <article class="cart">
+    <h1 class="cart-title">My Cart</h1>
+
+    @for (group of groups; track group.shopId) {
+      <mat-card class="shop-group" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>
+            <a class="shop-link" [routerLink]="['/shop', group.shopId]">{{ group.shopName }}</a>
+          </mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          @for (item of group.items; track item.id) {
+            <div class="cart-item">
+              <img class="item-picture" [src]="pictureSrc(item)" [alt]="item.itemName">
+
+              <div class="item-info">
+                <a class="item-name" [routerLink]="['/item', item.itemId]">{{ item.itemName }}</a>
+                <span class="item-price">{{ item.price | currency:'EUR' }} each</span>
+              </div>
+
+              <div class="item-quantity">
+                <button matIconButton (click)="changeQuantity(item, -1)"
+                        [disabled]="item.quantity <= 1" aria-label="Decrease quantity">
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <span>{{ item.quantity }}</span>
+                <button matIconButton (click)="changeQuantity(item, 1)"
+                        [disabled]="item.quantity >= item.inStock" aria-label="Increase quantity">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+
+              <span class="item-total">{{ item.totalPrice | currency:'EUR' }}</span>
+
+              <button matIconButton (click)="removeItem(item)" aria-label="Remove item">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          }
+        </mat-card-content>
+
+        <mat-divider></mat-divider>
+        <p class="shop-subtotal">Subtotal: {{ group.subtotal | currency:'EUR' }}</p>
+      </mat-card>
+    } @empty {
+      <p>Your cart is empty.</p>
+    }
+
+    @if (cart.items.length > 0) {
+      <div class="cart-summary">
+        <span class="cart-total">
+          Total ({{ cart.itemsCount }} items): {{ cart.totalPrice | currency:'EUR' }}
+        </span>
+        <button matButton="outlined" (click)="clearCart()">
+          <mat-icon>remove_shopping_cart</mat-icon>
+          Empty cart
+        </button>
+      </div>
+    }
+  </article>
+}

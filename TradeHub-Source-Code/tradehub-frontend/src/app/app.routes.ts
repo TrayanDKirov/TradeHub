@@ -9,6 +9,9 @@ import {SellerComponent} from './components/user/profile/seller/seller.component
 import {ShopListComponent} from './components/shop/shop-list/shop-list.component';
 import {ShopFormComponent} from './components/shop/shop-form/shop-form.component';
 import {ShopViewComponent} from './components/shop/shop-view/shop-view.component';
+import {ShopItemFormComponent} from './components/shop-item/shop-item-form/shop-item-form.component';
+import {ShopItemViewComponent} from './components/shop-item/shop-item-view/shop-item-view.component';
+import {CartComponent} from './components/cart/cart.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -26,5 +29,8 @@ export const routes: Routes = [
   { path: 'shops/my', component: ShopListComponent, canActivate: [AuthGuard], data: {mine: true}},
   { path: 'shops/create', component: ShopFormComponent, canActivate: [AuthGuard]},
   { path: 'shop/:id', component: ShopViewComponent, canActivate: [AuthGuard]},
+  { path: 'shop/:shopId/items/create', component: ShopItemFormComponent, canActivate: [AuthGuard]},
+  { path: 'item/:id', component: ShopItemViewComponent, canActivate: [AuthGuard]},
+  { path: 'cart', component: CartComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: 'home', pathMatch: 'full'}
 ];

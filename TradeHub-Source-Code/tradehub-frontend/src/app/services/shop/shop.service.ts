@@ -54,4 +54,11 @@ export class ShopService {
         unwrap(this.notificationService)
       );
   }
+
+  deleteShop(id: number): Observable<null> {
+    return this.http.delete<ApiResponse<null>>(`${this.shopUrl}/${id}`)
+      .pipe(
+        unwrap(this.notificationService)
+      );
+  }
 }

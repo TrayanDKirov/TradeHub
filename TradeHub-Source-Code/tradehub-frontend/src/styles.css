@@ -16,3 +16,9 @@ body {
 app-root {
   width: 100%;
 }
+
+.router-link-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}

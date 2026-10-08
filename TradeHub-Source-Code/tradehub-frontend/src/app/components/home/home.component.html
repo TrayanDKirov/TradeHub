@@ -8,6 +8,13 @@
     <span class="user-name">{{ userPreview?.username }}</span>
   </div>
 
+  @if (userPreview.role.toLowerCase() === 'buyer') {
+    <button matButton="outlined" routerLink="/cart">
+      <mat-icon>shopping_cart</mat-icon>
+      Cart
+    </button>
+  }
+
   <button matButton="outlined" (click)="logout()">
     <mat-icon>logout</mat-icon>
     Logout
@@ -19,5 +26,13 @@
 </section>
 
 <section class="router-link-section">
-  <button matFab extended routerLink="/shops/my"> My Shops </button>
+  @switch (userPreview.role.toLowerCase()) {
+    @case ('buyer') {
+      <button matFab extended routerLink="/shops"> Shops </button>
+    }
+    @case ('seller') {
+      <button matFab extended routerLink="/shops/my"> My Shops </button>
+      <button matFab extended routerLink="/shops"> All Shops </button>
+    }
+  }
 </section>

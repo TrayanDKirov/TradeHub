@@ -13,7 +13,7 @@ import {UserPreviewDto} from '../../dtos/user/user-preview.dto';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  userPreview: UserPreviewDto = {username: "username", role: ""};
+  userPreview: UserPreviewDto = {id: 0, username: "username", role: ""};
 
   constructor(private userService: UserService,
     private router: Router,

@@ -1,23 +1,28 @@
 import {ChangeDetectorRef, Component} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {ShopResponseDto} from '../../../dtos/shop/shop-response.dto';
 import {ShopService} from '../../../services/shop/shop.service';
 import {environment} from '../../../../environments/environment';
+import {ShopItemCardComponent} from '../../shop-item/shop-item-card/shop-item-card.component';
+import {UserService} from '../../../services/user/user.service';
 
 @Component({
-  imports: [MatButtonModule, MatIconModule, MatListModule, RouterLink],
+  imports: [MatButtonModule, MatIconModule, MatListModule, RouterLink, ShopItemCardComponent],
   selector: 'app-shop-view',
   styleUrl: './shop-view.component.css',
   templateUrl: './shop-view.component.html',
 })
 export class ShopViewComponent {
   shop: ShopResponseDto | undefined;
+  currentUserId: number | undefined;
 
   constructor(private service: ShopService,
+    private userService: UserService,
     private route: ActivatedRoute,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -29,6 +34,25 @@ export class ShopViewComponent {
         this.shop = shop;
         this.cdr.markForCheck();
       });
+
+    this.userService.getUserPreview()
+      .subscribe(userPreview => {
+        this.currentUserId = userPreview.id;
+        this.cdr.markForCheck();
+      });
+  }
+
+  deleteShop() {
+    if (!this.shop || !confirm(`Delete "${this.shop.name}" and all of its items?`)) {
+      return;
+    }
+
+    this.service.deleteShop(this.shop.id)
+      .subscribe(() => this.router.navigate(['/shops/my']));
+  }
+
+  get isOwner(): boolean {
+    return this.shop !== undefined && this.shop.seller.id === this.currentUserId;
   }
 
   // The backend runs on another origin, so a relative picture URL must be prefixed with its host
