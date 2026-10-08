@@ -1,13 +1,15 @@
 .login-form {
   display: flex;
-  flex-direction: column; /* stack fields vertically */
-  align-items: center;    /* center horizontally */
-  justify-content: center; /* center vertically if desired */
-  gap: 16px;              /* spacing between inputs */
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   width: 100%;
-  max-width: 400px;       /* keeps it narrow on large screens */
-  margin: 0 auto;         /* centers horizontally */
-  padding: 20px;
+  max-width: 400px;
+  margin: 24px auto 0;
+  padding: 32px 28px;
+  background: var(--mat-sys-surface-container-low);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 16px;
 }
 
 mat-form-field {
@@ -21,14 +23,13 @@ button {
 
 .router-link-section {
   display: flex;
-  flex-direction: column; /* stack fields vertically */
-  align-items: center;    /* center horizontally */
-  justify-content: center; /* center vertically if desired */
-  gap: 16px;              /* spacing between inputs */
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
   width: 100%;
-  max-width: 400px;       /* keeps it narrow on large screens */
-  margin: 0 auto;         /* centers horizontally */
-  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 16px;
 }
 
 .additional-text {

@@ -1,8 +1,8 @@
 .card {
-  max-width: calc(50% - 16px);
-  flex: 1 1 calc(50% - 16px);
+  flex: 1 1 calc(33.333% - 11px);
+  max-width: calc(33.333% - 11px);
+  min-width: 180px;
   box-sizing: border-box;
-
   aspect-ratio: 1 / 1;
 }
 
@@ -13,7 +13,6 @@
 }
 
 .card-title {
-  font-weight: bold;
   font-size: 14px;
   font-weight: 500;
 }
@@ -28,10 +27,16 @@
   color: rgb(26, 25, 25);
 }
 
+.router-link-section {
+  max-width: 900px;
+  margin: 0 auto 20px;
+}
+
 .cardContainer {
-  max-width: 320px;
+  max-width: 900px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  justify-content: center;
+  justify-content: flex-start;
 }

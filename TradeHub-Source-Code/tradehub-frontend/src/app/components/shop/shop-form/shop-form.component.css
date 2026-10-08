@@ -1,8 +1,14 @@
+.router-link-section {
+  max-width: 400px;
+  margin: 0 auto 20px;
+}
+
 form {
   display: flex;
   flex-direction: column;
   gap: 16px;
   max-width: 400px;
+  margin: 0 auto;
 }
 
 .picture-field {

@@ -1,9 +1,8 @@
 :host {
   display: block;
-  max-width: calc(50% - 16px);
-  flex: 1 1 calc(50% - 16px);
+  flex: 1 1 240px;
+  max-width: 280px;
   box-sizing: border-box;
-
   aspect-ratio: 1 / 1;
 }
 

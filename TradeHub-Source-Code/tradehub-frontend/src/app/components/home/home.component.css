@@ -1,9 +1,11 @@
 .home-toolbar {
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* user box and logout in the top left */
+  justify-content: flex-start;
   gap: 16px;
   margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
 }
 
 .user-box {

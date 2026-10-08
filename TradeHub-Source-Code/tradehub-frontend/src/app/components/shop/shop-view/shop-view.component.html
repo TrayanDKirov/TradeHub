@@ -11,41 +11,48 @@
 
 @if (shop) {
   <article class="shop">
-    <img class="shop-picture" [src]="pictureSrc" [alt]="shop.name">
+    <div class="shop-main">
+      <img class="shop-picture" [src]="pictureSrc" [alt]="shop.name">
+      <h1 class="shop-name">{{ shop.name }}</h1>
+      <p class="shop-created">Created on {{ shop.createdAt }}</p>
 
-    <h1 class="shop-name">{{ shop.name }}</h1>
-    <p class="shop-created">Created on {{ shop.createdAt }}</p>
-
-    <h2>Seller</h2>
-    <mat-list role="list">
-      <mat-list-item role="listitem">Name:          {{ shop.seller.displayName }}</mat-list-item>
-      @if (shop.seller.contactEmail) {
-        <mat-list-item role="listitem">Contact email: {{ shop.seller.contactEmail }}</mat-list-item>
-      }
-      @if (shop.seller.contactPhone) {
-        <mat-list-item role="listitem">Contact phone: {{ shop.seller.contactPhone }}</mat-list-item>
-      }
-      @if (shop.seller.description) {
-        <mat-list-item role="listitem">About:         {{ shop.seller.description }}</mat-list-item>
-      }
-    </mat-list>
-
-    <h2>Items</h2>
-    @if (isOwner) {
-      <section class="router-link-section">
-        <button matFab extended [routerLink]="['/shop', shop.id, 'items', 'create']"> Add item </button>
-        <button matButton="outlined" (click)="deleteShop()">
-          <mat-icon>delete</mat-icon>
-          Delete shop
-        </button>
-      </section>
-    }
-    <div class="cardContainer">
-      @for (item of shop.items; track item.id) {
-        <app-shop-item-card [item]="item"></app-shop-item-card>
-      } @empty {
-        <p>No items yet.</p>
-      }
+      <h2>Items</h2>
+      <div class="cardContainer">
+        @for (item of shop.items; track item.id) {
+          <app-shop-item-card [item]="item"></app-shop-item-card>
+        } @empty {
+          <p>No items yet.</p>
+        }
+      </div>
     </div>
+
+    <aside class="shop-sidebar">
+      <h2 class="sidebar-heading">Seller</h2>
+      <mat-list role="list">
+        <mat-list-item role="listitem">Name: {{ shop.seller.displayName }}</mat-list-item>
+        @if (shop.seller.contactEmail) {
+          <mat-list-item role="listitem">Email: {{ shop.seller.contactEmail }}</mat-list-item>
+        }
+        @if (shop.seller.contactPhone) {
+          <mat-list-item role="listitem">Phone: {{ shop.seller.contactPhone }}</mat-list-item>
+        }
+        @if (shop.seller.description) {
+          <mat-list-item role="listitem">About: {{ shop.seller.description }}</mat-list-item>
+        }
+      </mat-list>
+
+      @if (isOwner) {
+        <div class="sidebar-actions">
+          <button matFab extended [routerLink]="['/shop', shop.id, 'items', 'create']">
+            <mat-icon>add</mat-icon>
+            Add item
+          </button>
+          <button matButton="outlined" (click)="deleteShop()">
+            <mat-icon>delete</mat-icon>
+            Delete shop
+          </button>
+        </div>
+      }
+    </aside>
   </article>
 }

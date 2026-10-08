@@ -1,10 +1,22 @@
+.router-link-section {
+  max-width: 960px;
+  margin: 0 auto 20px;
+}
+
 .shop {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 32px;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 16px;
+  align-items: start;
+}
+
+.shop-main {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-width: 600px;
-  margin: 16px auto;
-  padding: 0 16px;
+  gap: 12px;
 }
 
 .shop-picture {
@@ -24,10 +36,45 @@
   font-size: 13px;
 }
 
+.shop-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--mat-sys-surface-container-low);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  padding: 16px;
+  position: sticky;
+  top: 0;
+}
+
+.sidebar-heading {
+  margin: 0 0 4px;
+  font-size: 16px;
+}
+
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--mat-sys-outline-variant);
+}
+
 .cardContainer {
-  max-width: 320px;
+  max-width: 100%;
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+@media (max-width: 700px) {
+  .shop {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-sidebar {
+    position: static;
+  }
 }

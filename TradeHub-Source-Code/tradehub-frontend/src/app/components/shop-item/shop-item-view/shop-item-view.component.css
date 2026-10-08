@@ -1,9 +1,14 @@
+.router-link-section {
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+
 .item {
   display: flex;
   flex-direction: column;
   gap: 8px;
   max-width: 600px;
-  margin: 16px auto;
+  margin: 0 auto;
   padding: 0 16px;
 }
 
