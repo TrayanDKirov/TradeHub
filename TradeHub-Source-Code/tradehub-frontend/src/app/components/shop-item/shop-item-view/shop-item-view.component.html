@@ -1,0 +1,53 @@
+<section class="router-link-section">
+  <button matFab extended routerLink="/home">
+    <mat-icon>arrow_left_alt</mat-icon>
+    Back to Home
+  </button>
+  @if (item) {
+    <button matFab extended [routerLink]="['/shop', item.shopId]">
+      <mat-icon>arrow_left_alt</mat-icon>
+      Back to Shop
+    </button>
+  }
+</section>
+
+@if (item) {
+
+  <article class="item">
+    <img class="item-picture" [src]="pictureSrc" [alt]="item.name">
+
+    <h1 class="item-name">{{ item.name }}</h1>
+    <p class="item-created">Added on {{ item.createdAt }}</p>
+
+    <mat-list role="list">
+      <mat-list-item role="listitem">Price:    {{ item.price | currency:'EUR' }}</mat-list-item>
+      <mat-list-item role="listitem">In stock: {{ item.quantity }}</mat-list-item>
+    </mat-list>
+
+    @if (isBuyer) {
+      <div class="add-to-cart">
+        <div class="item-quantity">
+          <button matIconButton (click)="changeQuantity(-1)"
+                  [disabled]="quantity <= 1" aria-label="Decrease quantity">
+            <mat-icon>remove</mat-icon>
+          </button>
+          <span>{{ quantity }}</span>
+          <button matIconButton (click)="changeQuantity(1)"
+                  [disabled]="quantity >= item.quantity" aria-label="Increase quantity">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        <button matButton="tonal" (click)="addToCart()" [disabled]="item.quantity < 1">
+          <mat-icon>add_shopping_cart</mat-icon>
+          {{ item.quantity < 1 ? 'Out of stock' : 'Add to cart' }}
+        </button>
+
+        <a matButton routerLink="/cart">Go to cart</a>
+      </div>
+    }
+
+    <h2>Description</h2>
+    <p class="item-description">{{ item.description }}</p>
+  </article>
+}

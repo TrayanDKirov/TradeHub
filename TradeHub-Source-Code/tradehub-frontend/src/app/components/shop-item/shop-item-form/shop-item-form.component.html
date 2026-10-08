@@ -1,0 +1,60 @@
+<section class="router-link-section">
+  <button matFab extended routerLink="/home">
+    <mat-icon>arrow_left_alt</mat-icon>
+    Back to Home
+  </button>
+  <button matFab extended [routerLink]="['/shop', createDto.shopId]">
+    <mat-icon>arrow_left_alt</mat-icon>
+    Back to Shop
+  </button>
+</section>
+
+<form (ngSubmit)="onSubmit()" #itemForm="ngForm">
+  <mat-form-field>
+    <mat-label>Item name</mat-label>
+    <input matInput type="text" [(ngModel)]="createDto.name" name="name"
+           required minlength="6" maxlength="25">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Price</mat-label>
+    <input matInput type="number" [(ngModel)]="createDto.price" name="price"
+           required min="0.01" step="0.01">
+    <span matTextSuffix>€</span>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Quantity</mat-label>
+    <input matInput type="number" [(ngModel)]="createDto.quantity" name="quantity"
+           required min="0" step="1">
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <textarea matInput [(ngModel)]="createDto.description" name="description"
+              required rows="4"></textarea>
+  </mat-form-field>
+
+  <div class="picture-field">
+    <input #pictureInput type="file" hidden
+           [accept]="acceptedTypes"
+           (change)="onPictureSelected($event)">
+
+    <button matButton="outlined" type="button" (click)="pictureInput.click()">
+      <mat-icon>image</mat-icon>
+      {{ picture ? 'Change picture' : 'Choose picture' }}
+    </button>
+
+    @if (picture) {
+      <span class="picture-name">{{ picture.name }}</span>
+    }
+  </div>
+
+  @if (picturePreview) {
+    <img class="picture-preview" [src]="picturePreview" alt="Item picture preview">
+  }
+
+  <button matButton="tonal" type="submit" [disabled]="itemForm.invalid || !picture">
+    Create
+  </button>
+</form>

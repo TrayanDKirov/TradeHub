@@ -1,0 +1,42 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 600px;
+  margin: 16px auto;
+  padding: 0 16px;
+}
+
+.item-picture {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.item-name {
+  margin: 8px 0 0;
+}
+
+.item-created {
+  margin: 0;
+  color: gray;
+  font-size: 13px;
+}
+
+.add-to-cart {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+}
+
+.item-description {
+  margin: 0;
+  white-space: pre-line;
+}
