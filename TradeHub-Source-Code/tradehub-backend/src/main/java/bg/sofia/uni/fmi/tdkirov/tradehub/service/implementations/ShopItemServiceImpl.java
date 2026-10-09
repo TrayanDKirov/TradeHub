@@ -11,13 +11,19 @@ import bg.sofia.uni.fmi.tdkirov.tradehub.exception.shop.ShopNotFound;
 import bg.sofia.uni.fmi.tdkirov.tradehub.exception.shopitem.ShopItemNotFound;
 import bg.sofia.uni.fmi.tdkirov.tradehub.exception.user.seller.SellerNotFound;
 import bg.sofia.uni.fmi.tdkirov.tradehub.mapper.ShopItemMapper;
+import bg.sofia.uni.fmi.tdkirov.tradehub.repository.CartItemRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.repository.SellerProfileRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.repository.ShopItemRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.repository.ShopRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.FileStorageService;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.ShopItemService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -32,6 +38,7 @@ public class ShopItemServiceImpl implements ShopItemService {
     private ShopItemRepository repository;
     private ShopRepository shopRepository;
     private SellerProfileRepository sellerRepository;
+    private CartItemRepository cartItemRepository;
     private FileStorageService fileStorageService;
 
     @Override
@@ -86,5 +93,33 @@ public class ShopItemServiceImpl implements ShopItemService {
             .orElseThrow(() -> new ShopItemNotFound("The shop item is missing. "));
 
         return mapper.toResponseDto(shopItem);
+    }
+
+    @Transactional
+    @Override
+    public void deleteShopItem(Long id, String currUsername) {
+        ShopItem shopItem = repository.findById(id)
+            .orElseThrow(() -> new ShopItemNotFound("The shop item is missing. "));
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream()
+            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin && !shopItem.getCreatedBy().getUser().getUsername().equals(currUsername)) {
+            throw new ShopAccessDenied(String.format(
+                "The shop item with id %d is not owned by %s", id, currUsername));
+        }
+
+        String picturePath = shopItem.getPicturePath();
+
+        cartItemRepository.deleteAllByItemId(id);
+        repository.delete(shopItem);
+
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                fileStorageService.delete(picturePath);
+            }
+        });
     }
 }

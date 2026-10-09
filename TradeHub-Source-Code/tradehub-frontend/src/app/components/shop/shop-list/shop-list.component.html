@@ -23,7 +23,7 @@
 
       <mat-card-actions>
         <button matButton (click)="viewShop(shop.id)">OPEN</button>
-        @if (mine) {
+        @if (mine || isAdmin) {
           <button mat-raised-button color="warn" (click)="deleteShop(shop)">DELETE</button>
         }
       </mat-card-actions>

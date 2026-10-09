@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import {ApiResponse} from '../../dtos/api-response.dto';
 import {unwrap} from '../../utils/api-response.operators';
@@ -33,6 +34,14 @@ export class ShopItemService {
     return this.http.post<ApiResponse<ShopItemPreviewDto>>(this.shopItemUrl, form)
       .pipe(
         unwrap(this.notificationService)
+      );
+  }
+
+  deleteShopItem(id: number): Observable<void> {
+    return this.http.delete<ApiResponse<void>>(`${this.shopItemUrl}/${id}`)
+      .pipe(
+        unwrap(this.notificationService),
+        map(() => undefined)
       );
   }
 }

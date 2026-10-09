@@ -5,9 +5,11 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatListModule} from '@angular/material/list';
 import {ShopResponseDto} from '../../../dtos/shop/shop-response.dto';
 import {ShopService} from '../../../services/shop/shop.service';
+import {ShopItemService} from '../../../services/shop-item/shop-item.service';
 import {environment} from '../../../../environments/environment';
 import {ShopItemCardComponent} from '../../shop-item/shop-item-card/shop-item-card.component';
 import {UserService} from '../../../services/user/user.service';
+import {AuthenticationService} from '../../../services/user/authentication.service';
 
 @Component({
   imports: [MatButtonModule, MatIconModule, MatListModule, RouterLink, ShopItemCardComponent],
@@ -18,9 +20,12 @@ import {UserService} from '../../../services/user/user.service';
 export class ShopViewComponent {
   shop: ShopResponseDto | undefined;
   currentUserId: number | undefined;
+  isAdmin = false;
 
   constructor(private service: ShopService,
+    private shopItemService: ShopItemService,
     private userService: UserService,
+    private authService: AuthenticationService,
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef
@@ -28,6 +33,7 @@ export class ShopViewComponent {
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.isAdmin = this.authService.isAdmin();
 
     this.service.getShop(id)
       .subscribe(shop => {
@@ -48,11 +54,26 @@ export class ShopViewComponent {
     }
 
     this.service.deleteShop(this.shop.id)
-      .subscribe(() => this.router.navigate(['/shops/my']));
+      .subscribe(() => this.router.navigate([this.isAdmin ? '/shops' : '/shops/my']));
+  }
+
+  deleteItem(itemId: number) {
+    if (!confirm('Delete this item?')) return;
+
+    this.shopItemService.deleteShopItem(itemId).subscribe(() => {
+      if (this.shop) {
+        this.shop = { ...this.shop, items: this.shop.items.filter(i => i.id !== itemId) };
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   get isOwner(): boolean {
     return this.shop !== undefined && this.shop.seller.id === this.currentUserId;
+  }
+
+  get canManage(): boolean {
+    return this.isOwner || this.isAdmin;
   }
 
   // The backend runs on another origin, so a relative picture URL must be prefixed with its host

@@ -58,7 +58,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         buyerRepository.save(buyer);
 
-        return jwtUtil.generateToken(user.getUsername());
+        return jwtUtil.generateToken(user.getUsername(), user.getRole().name());
     }
 
     @Override
@@ -75,7 +75,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         sellerRepository.save(seller);
 
-        return jwtUtil.generateToken(user.getUsername());
+        return jwtUtil.generateToken(user.getUsername(), user.getRole().name());
     }
 
     @Override
@@ -87,6 +87,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new InvalidPasswordException();
         }
 
-        return jwtUtil.generateToken(user.getUsername());
+        return jwtUtil.generateToken(user.getUsername(), user.getRole().name());
     }
 }

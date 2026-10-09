@@ -11,8 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.io.IOException;
-import java.util.Collections;
+import java.util.List;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -36,12 +38,13 @@ public class JwtFilter extends OncePerRequestFilter {
                 System.out.println("Token validated successfully");
 
                 String username = jwtUtil.extractUsername(token);
+                String role = jwtUtil.extractRole(token);
                 System.out.println("Extracted username: " + username);
 
                 UserDetails userDetails = User
                     .withUsername(username)
                     .password("")
-                    .authorities(Collections.emptyList())
+                    .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase())))
                     .build();
 
                 UsernamePasswordAuthenticationToken auth =

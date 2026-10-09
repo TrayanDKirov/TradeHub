@@ -3,6 +3,8 @@ import { BuyerRegisterComponent } from './components/user/register/buyer-registe
 import { SellerRegisterComponent } from './components/user/register/seller-register/seller-register.component';
 import { LoginComponent } from './components/user/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { AdminLoginComponent } from './components/admin/admin-login/admin-login.component';
 import {HomeComponent} from './components/home/home.component';
 import {BuyerComponent} from './components/user/profile/buyer/buyer.component';
 import {SellerComponent} from './components/user/profile/seller/seller.component';
@@ -20,6 +22,8 @@ export const routes: Routes = [
   { path: 'register/buyer', component: BuyerRegisterComponent },
   { path: 'register/seller', component: SellerRegisterComponent },
   { path: 'login', component: LoginComponent},
+
+  { path: 'admin/login', component: AdminLoginComponent },
 
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
   { path: 'profile/buyer', component: BuyerComponent, canActivate: [AuthGuard]},

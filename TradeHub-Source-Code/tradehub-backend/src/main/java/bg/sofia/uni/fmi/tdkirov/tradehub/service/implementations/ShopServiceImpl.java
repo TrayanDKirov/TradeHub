@@ -17,6 +17,8 @@ import bg.sofia.uni.fmi.tdkirov.tradehub.repository.ShopRepository;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.FileStorageService;
 import bg.sofia.uni.fmi.tdkirov.tradehub.service.ShopService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
@@ -104,7 +106,11 @@ public class ShopServiceImpl implements ShopService {
         Shop shop = repository.findById(id)
             .orElseThrow(() -> new ShopNotFound("The shop is missing. "));
 
-        if (!shop.getCreatedBy().getUser().getUsername().equals(currUsername)) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream()
+            .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (!isAdmin && !shop.getCreatedBy().getUser().getUsername().equals(currUsername)) {
             throw new ShopAccessDenied(String.format(
                 "The shop with id %d is not owned by %s",
                 id, currUsername));

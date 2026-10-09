@@ -30,6 +30,13 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/v1/auth/register/**", "/api/v1/auth/login", "/images/**").permitAll()
+                // seller-only writes
+                .requestMatchers(HttpMethod.POST, "/api/v1/shops", "/api/v1/shop-items").hasRole("SELLER")
+                // seller or admin can delete
+                .requestMatchers(HttpMethod.DELETE, "/api/v1/shops/**", "/api/v1/shop-items/**").hasAnyRole("SELLER", "ADMIN")
+                // cart is buyer-only
+                .requestMatchers("/api/v1/cart/**").hasRole("BUYER")
+                // everything else just needs a valid token
                 .requestMatchers("/api/**").authenticated()
                 .anyRequest().permitAll()
             )

@@ -12,5 +12,10 @@
 
   <mat-card-actions>
     <button matButton (click)="viewItem()">OPEN</button>
+    @if (canDelete) {
+      <button matIconButton color="warn" (click)="onDelete($event)" aria-label="Delete item">
+        <mat-icon>delete</mat-icon>
+      </button>
+    }
   </mat-card-actions>
 </mat-card>

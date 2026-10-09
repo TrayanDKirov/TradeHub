@@ -7,6 +7,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {ShopPreviewDto} from '../../../dtos/shop/shop-preview.dto';
 import {ShopService} from '../../../services/shop/shop.service';
+import {AuthenticationService} from '../../../services/user/authentication.service';
 import {environment} from '../../../../environments/environment';
 
 @Component({
@@ -18,8 +19,10 @@ import {environment} from '../../../../environments/environment';
 export class ShopListComponent {
   shops: ShopPreviewDto[] = [];
   mine = false;
+  isAdmin = false;
 
   constructor(private shopService: ShopService,
+    private authService: AuthenticationService,
     private router: Router,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
@@ -28,6 +31,7 @@ export class ShopListComponent {
 
   ngOnInit() {
     this.mine = this.route.snapshot.data['mine'] === true;
+    this.isAdmin = this.authService.isAdmin();
 
     this.route.queryParamMap
       .pipe(

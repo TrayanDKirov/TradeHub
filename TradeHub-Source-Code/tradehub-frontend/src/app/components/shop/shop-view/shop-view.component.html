@@ -19,7 +19,10 @@
       <h2>Items</h2>
       <div class="cardContainer">
         @for (item of shop.items; track item.id) {
-          <app-shop-item-card [item]="item"></app-shop-item-card>
+          <app-shop-item-card [item]="item"
+                              [canDelete]="canManage"
+                              (deleteRequest)="deleteItem($event)">
+          </app-shop-item-card>
         } @empty {
           <p>No items yet.</p>
         }
@@ -41,12 +44,14 @@
         }
       </mat-list>
 
-      @if (isOwner) {
+      @if (canManage) {
         <div class="sidebar-actions">
-          <button matFab extended [routerLink]="['/shop', shop.id, 'items', 'create']">
-            <mat-icon>add</mat-icon>
-            Add item
-          </button>
+          @if (isOwner) {
+            <button matFab extended [routerLink]="['/shop', shop.id, 'items', 'create']">
+              <mat-icon>add</mat-icon>
+              Add item
+            </button>
+          }
           <button matButton="outlined" (click)="deleteShop()">
             <mat-icon>delete</mat-icon>
             Delete shop

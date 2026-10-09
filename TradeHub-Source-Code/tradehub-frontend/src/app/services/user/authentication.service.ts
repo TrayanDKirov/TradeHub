@@ -68,4 +68,20 @@ export class AuthenticationService {
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
+
+  getRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+    try {
+      const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+      const payload = JSON.parse(atob(base64));
+      return (payload['role'] as string) ?? null;
+    } catch {
+      return null;
+    }
+  }
+
+  isAdmin(): boolean {
+    return this.getRole()?.toUpperCase() === 'ADMIN';
+  }
 }

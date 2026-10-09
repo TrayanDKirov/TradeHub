@@ -15,9 +15,10 @@ public class JwtUtil {
 
     private static final int TIME_OUT = 86400000; // 1 day
 
-    public String generateToken(String username) {
+    public String generateToken(String username, String role) {
         return Jwts.builder()
             .setSubject(username)
+            .claim("role", role)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + TIME_OUT))
             .signWith(SECRET_KEY)
@@ -31,6 +32,15 @@ public class JwtUtil {
             .parseClaimsJws(token)
             .getBody()
             .getSubject();
+    }
+
+    public String extractRole(String token) {
+        return Jwts.parser()
+            .setSigningKey(SECRET_KEY)
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .get("role", String.class);
     }
 
     public boolean isExpired(String token) {

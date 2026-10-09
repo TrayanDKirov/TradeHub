@@ -51,4 +51,16 @@ public interface ShopItemService {
      * @return the shop item response data transfer object.
      */
     ShopItemResponseDto getShopItem(Long id);
+
+    /**
+     * Deletes the shop item with the given identifier.
+     * Only the shop owner or an admin may delete an item.
+     *
+     * @param id              the identifier of the shop item.
+     * @param currUsername    the username of the requesting user.
+     *
+     * @throws ShopItemNotFound  if the shop item does not exist.
+     * @throws ShopAccessDenied  if the user neither owns the shop nor is an admin.
+     */
+    void deleteShopItem(Long id, String currUsername);
 }
