@@ -21,6 +21,7 @@ export class ShopViewComponent {
   shop: ShopResponseDto | undefined;
   currentUserId: number | undefined;
   isAdmin = false;
+  isSeller = false;
 
   constructor(private service: ShopService,
     private shopItemService: ShopItemService,
@@ -34,6 +35,7 @@ export class ShopViewComponent {
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.isAdmin = this.authService.isAdmin();
+    this.isSeller = this.authService.getRole()?.toUpperCase() === 'SELLER';
 
     this.service.getShop(id)
       .subscribe(shop => {
@@ -54,7 +56,7 @@ export class ShopViewComponent {
     }
 
     this.service.deleteShop(this.shop.id)
-      .subscribe(() => this.router.navigate([this.isAdmin ? '/shops' : '/shops/my']));
+      .subscribe(() => this.router.navigate([this.shopsRoute]));
   }
 
   deleteItem(itemId: number) {
@@ -66,6 +68,10 @@ export class ShopViewComponent {
         this.cdr.markForCheck();
       }
     });
+  }
+
+  get shopsRoute(): string {
+    return this.isSeller ? '/shops/my' : '/shops';
   }
 
   get isOwner(): boolean {
