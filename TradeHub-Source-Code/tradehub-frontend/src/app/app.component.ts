@@ -10,7 +10,7 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  logoUrl: string = `${environment.imagesUrl}/logo.png`;
+  logoUrl: string = `${environment.imagesUrl}/tradehub-logo.jpg`;
 
   protected title = 'tradehub-frontend';
 }
