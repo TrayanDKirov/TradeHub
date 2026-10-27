@@ -82,7 +82,6 @@ export class ShopViewComponent {
     return this.isOwner || this.isAdmin;
   }
 
-  // The backend runs on another origin, so a relative picture URL must be prefixed with its host
   get pictureSrc(): string {
     return `${environment.host}${this.shop?.pictureUrl ?? ''}`;
   }

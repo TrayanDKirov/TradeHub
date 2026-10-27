@@ -53,6 +53,13 @@
   font-size: 16px;
 }
 
+.seller-description {
+  margin: 0 16px;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 .sidebar-actions {
   display: flex;
   flex-direction: column;
