@@ -25,28 +25,35 @@ A multi-role marketplace built with Spring Boot and Angular. Sellers open shops 
 
 ---
 
-## Architecture
+## Layered Architecture
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│                   Angular Frontend (:4200)               │
-│                                                          │
-│  Components  ──►  Services  ──►  HttpClient              │
-│      ▲                              │                    │
-│   Guards              Request / Error Interceptors       │
-└─────────────────────────────────────┼────────────────────┘
-                     REST + JWT       │  JSON / multipart
-┌─────────────────────────────────────┼────────────────────┐
-│                   Spring Boot Backend (:8080)            │
-│                                     ▼                    │
-│   JwtFilter  ──►  Controllers  ──►  Services  ──►  Repos │
-│                        │               │            │    │
-│                      DTOs ◄─ Mappers ─ Entities     │    │
-│                                        │            │    │
-│                            FileStorage (uploads/)   │    │
-└─────────────────────────────────────────────────────┼────┘
-                                                      ▼
-                                              PostgreSQL 16
+                    ┌─────────────────────────────────┐
+                    │           Components            │  Angular (:4200)
+                    └────────────────┬────────────────┘
+                    ┌────────────────▼────────────────┐
+                    │       Services  +  HttpClient   │
+                    └────────────────┬────────────────┘
+                    ┌────────────────▼────────────────┐
+                    │  Request / Error  Interceptors  │
+                    └────────────────┬────────────────┘
+                               HTTP  │  REST API+ JWT
+                    ┌────────────────▼────────────────┐
+                    │            JwtFilter            │  Spring Boot (:8080)
+                    └────────────────┬────────────────┘
+                    ┌────────────────▼────────────────┐
+                    │           Controllers           │
+                    └────────────────┬────────────────┘
+                    ┌────────────────▼────────────────┐
+                    │            Services             │
+                    └────────────────┬────────────────┘
+                    ┌────────────────▼────────────────┐
+                    │  Repositories  +  Entities      │
+                    └────────────────┬────────────────┘
+                                     │
+                    ┌────────────────▼────────────────┐
+                    │           PostgreSQL 16         │
+                    └─────────────────────────────────┘
 ```
 
 The frontend talks to the backend only through the REST API under `/api/v1`. The request interceptor attaches the JWT to every call. `JwtFilter` validates it and fills the Spring Security context, so role checks run in `SecurityConfiguration` and ownership checks run in the service layer.
@@ -147,22 +154,6 @@ docker compose up --build
 
 This starts PostgreSQL on `localhost:5432` and the backend on `http://localhost:8080`. Tables are created automatically from the JPA entities, and uploaded pictures are kept in the `tradehub-uploads` volume.
 
-### Running the backend locally (without Docker)
-
-Start only the database container, then run Spring Boot with the datasource settings:
-
-```bash
-cd tradehub-backend
-docker compose up -d db
-
-export SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/tradehub
-export SPRING_DATASOURCE_USERNAME=tradehub
-export SPRING_DATASOURCE_PASSWORD=tradehub
-export SPRING_JPA_HIBERNATE_DDL_AUTO=update
-
-./mvnw spring-boot:run
-```
-
 ### Running the frontend
 
 ```bash
@@ -183,6 +174,18 @@ admin.password=admin1234
 ```
 
 Log in at `/admin/login`. **Change these credentials before deploying anywhere public.**
+
+### Seeded test accounts
+
+On first startup the application seeds a set of test accounts, two shops per seller, and several items per shop with cover images.
+
+| Role | Username | Password |
+|---|---|---|
+| Admin | `admin` | `admin1234` |
+| Seller | `seller1` | `password123` |
+| Buyer | `buyer1` | `password123` |
+
+The admin, sellers and buyers log in at `/login`; the admin can also use `/admin/login`.
 
 ---
 
@@ -224,6 +227,5 @@ TradeHub-Source-Code/
 - **Seller verification**: `seller_profiles.verified` exists in the schema but nothing sets or checks it yet
 - **Change password**: add a password change flow for users
 - **Search, filtering and pagination**: for the shop and item lists
-- **Database migrations**: use Flyway or Liquibase instead of `ddl-auto=update`
 - **Externalised secrets**: move the admin credentials to environment variables and load the JWT signing key from configuration. Right now it is generated at startup, so every restart logs all users out
 - **Test coverage**: unit and integration tests for services, controllers and components
